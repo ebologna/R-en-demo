@@ -1,0 +1,5 @@
+"0","p1+ xlab(""Horas trabajadas"")+"
+"0","  ylab(""Ingresos salariales"")+"
+"0","  labs(title=""Ingresos salariales según cantidad de horas semanales trabajadas"", subtitle=""clasificación por sexos y cantidad de ocupaciones"","
+"0","       caption=""Fuente: EPH tercer trimestre 2018"")"
+"0",""

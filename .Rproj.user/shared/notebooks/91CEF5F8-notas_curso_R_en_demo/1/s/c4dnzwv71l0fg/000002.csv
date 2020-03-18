@@ -1,0 +1,3 @@
+"0","asalariados.con.ingreso.y.horas.cordoba<-subset("
+"0","  asalariados.con.ingreso.cordoba,"
+"0","  asalariados.con.ingreso.cordoba$PP3E_TOT>0)"

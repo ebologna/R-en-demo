@@ -1,0 +1,3 @@
+"0","ggplot("
+"0","  asalariados.con.ingreso.y.horas.cordoba)+"
+"0","  geom_point(aes(PP3E_TOT, PP08D1, shape=sexo))"

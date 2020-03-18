@@ -1,0 +1,64 @@
+library(demography)
+Population<-read.table("Population.txt", sep="", header = TRUE)
+dat<-read.demogdata(
+  file="Deaths_1x1.txt",popfile="Population.txt", type="mortality",
+  label="USA",skip=2,scale=1 ) # ajustar tutorial,
+# eliminar dos filas de encabezado
+table(Deaths$Year)
+table(Population$Year)
+table(Deaths$Year, Population$Year)
+
+hmd.mx("DNK", "ebologna@gmail.com", "71blgEdu", label="DNK")
+tabla_de_mortalidad[c(1,2)]
+tabla_de_mortalidad[2]
+u<-data.frame(tabla_de_mortalidad$age,
+              tabla_de_mortalidad$mx, tabla_de_mortalidad$qx,
+              tabla_de_mortalidad$lx, tabla_de_mortalidad$dx,
+              tabla_de_mortalidad$Lx, tabla_de_mortalidad$Tx,
+              tabla_de_mortalidad$ex, tabla_de_mortalidad$rx)
+u
+names(u)<-c("edad","mx","qx","lx","dx","Lx","Tx","ex","rx")
+
+z=data.frame()
+genera_tabla<-function(x){
+  z<-cbind(x$age,x$mx, x$qx, x$lx, x$dx,x$Lx, x$Tx,x$ex, x$rx)
+  z<-as.data.frame(z)
+  names(z)<-c("edad","mx","qx","lx","dx","Lx","Tx","ex","rx")
+}
+
+w<-genera_tabla(tabla_de_mortalidad)
+w
+
+z=data.frame()
+genera_tabla<-function(x){
+  z<-cbind(x[1],x[3], x[4], x[5], x[6],x[7], x[8],x[9], x[10])
+  z<-as.data.frame(z)
+  names(z)<-c("edad","mx","qx","lx","dx","Lx","Tx","ex","rx")
+}
+names(tabla_de_mortalidad)
+tabla_de_mortalidad[1]
+
+t="a"
+t<-as.numeric(t)
+t<-c("a", "b")
+class(t)
+t<-as.factor(t)
+levels(t)
+t
+
+library(ggplot2)
+p1<-ggplot(asalariados.con.ingreso.y.horas.cordoba, aes(PP3E_TOT, PP08D1))+
+  geom_point()
+p1+geom_smooth()
+p1+ geom_smooth(method = "lm")
+
+# Un mejor modelo podría ser usar el estimador
+# de Theil-Sen, que es la mediana de todas
+# las pendientes entre dos puntos distintos
+# está en el paquete mblm. 
+
+library(mblm)
+TheilSen <- function(..., weights = NULL) {
+  mblm::mblm(...)
+}
+p1+geom_smooth(method = "TheilSen")

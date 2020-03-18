@@ -1,0 +1,7 @@
+df=data.frame(edad,sexo)
+edad=c(25,25,30,35,35,35,35,30,28,28)
+sexo=rep(c("varones","mujeres"),5)
+library(ggplot2)
+ggplot(df)+geom_point(aes(sexo,edad,size=edad, color=sexo))
+ggplot(df)+geom_point(aes(sexo,edad), size=5, color="green")
+ggplot(df)+geom_point(aes(sexo,edad, color="green"))

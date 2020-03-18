@@ -1,0 +1,289 @@
+---
+title: "Introducción al Paquete Demography"
+author: "Eduardo Bologna"
+date: "21/1/2020"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+https://www.rdocumentation.org/packages/demography/versions/1.22/topics/demogdata  
+https://rpubs.com/Timexpo/487053  
+
+Para esta sección, se recomienda crear un nuevo poryecto, específico para las operaciones que se realizarán con este paquete. De ese modo se pueden tener los datos fácilmente accesibles.
+
+Descripción del paquete: "El paquete R `demography` provee funciones para el análisis demográfico, que incluyen: elaboración de tablas de mortalidad, modelización de Lee-Carter, análisis funcional de datos sobre tasas de mortalidad, fecundidad y migración neta, y proyecoines estocásticas de población"
+
+**Elaboración de tablas de mortalidad**: una tabla de mortalidad describe la demografía de una población en términos de supervivencia, escencialmente, el número de individuos que se espera que alcancen a la próxima edad o la próxima etapa de su vida.
+
+**Modelización de Lee-Carter**: Un enfoque para proyectar mortalidad, que no es frecuente en los paquetes estadísticos.
+
+**Análisis funcional de datos**: Permite el análisis de diferentes indicadores de una población: tasas de mortalidad y fecundidad, migración neta y proyecciones estocásticas de población.
+
+## Primer ejemplo
+
+La instalación del paquete se realiza por el medio habitual
+```{r eval=FALSE}
+install.packages("demography")
+```
+
+Y se carga en la sesión
+```{r}
+library(demography)
+```
+
+
+Para importar las bases de datos a R se usa el comando `read.demogdata()` del paquete demography. La estructura del comando es:
+
+```{r eval=FALSE}
+read.demogdata(archivo de tasas, archivo de población, type, label, max.mx = 10, skip = 2, popskip = (por defecto coincide con skip), lambda, scale=1)
+```
+
+
+El *archivo de tasas* es el archivo que contiene las tasas que interesan: mortalidad o fecundidad
+El *archivo de población* contiene la composición de la población por sexo y edad
+*Type* es el componente de la dinámica demográfica que se analiza, puede valer: “mortality”, “fertility” o “migration”.
+*Label* es el nombre del área que se analiza
+*Max.mx* establece un límite superior para las tasas bajo análisis; su función es la de tratar a todo valor que sea mayor que ese número, como igual a él.
+*Skip* indica cuántas líneas deben saltearse antes de empezar a leer el archivo, para el caso de archivos que tengan títulos antes de los nombres de las columnas.
+*Popskip* es lo mismo para el archivo de población.
+*Lamda* es un valor que se usa como parámetro en la transformación de Box-Cox Es un modo de convertir datos no normales en normales. Los valores por defecto son 0 para mortalidad, 0.4 para fecundidad y 1 para migración
+*Scale* indica la escala de los datos,  si las tasas son por indviduo "scale=1" si son por mil "scale=1000".
+
+Vamos a usar datos del proyecto The Human Mortality Database For this tutorial, data will be obtained from the human mortality database (Shkolnikov, 2020). https://www.mortality.org/ Una vez hecho el registro (sin costo) se pueden descargar los datos para 41 países o áreas y diversos períodos. Para este ejemplo se usarán los datos de USA (UNA VEZ RECORRIDO, SE CAMBIA POR LA DE CHILE). Las bases que nos van a interesar por el momento son las de tasas de mortalidad y exposición al riesgo, ambas en la sección "datos periódicos". Para aprovechas las funciones de este paquete, es necesario adecuar otras tablas a este formato.
+
+Una vez que se han descargado las dos bases (tasas y población sometida al riesgo) en la carpeta dondese encuentra el proyecto, conviene observar los archivos .txt, para tener en mente la estructura general de los datos.  
+Luego las bases son leídas convirtiéndolas en un objeto de clase "demogdata", que será usado por varias funciones del paquete.  
+Hemos usado los nombres con que vienen por defecto las bases de HMD: Mx_1x1.txt para las tasas de mortalidad y Exposures_1x1.txt para la población expuesta.
+
+```{r}
+USA_mortalidad<-read.demogdata(
+  file="Mx_1x1.txt",popfile="Exposures_1x1.txt", type="mortality",
+  label="USA",skip=2, scale=1 )
+```
+
+Estos datos se pueden visualizar con el comando plot, con estructura  
+```{r eval=FALSE}
+plot(x, series, datatype, years, ages, max.age,
+  transform, plot.type, type = "l", main, xlab, ylab,)
+
+```
+
+cuyos argumentos son:
+*x*: el objeto de clase demogdata con que se está trabajando.
+*series*: el nombre de la serie que se va a graficar. Si no se especifica, por defecto toma la primera matriz, según datatype.
+*datatype*: por defecto es tasas ("rate"), la opción es especificar población datatype="pop".
+*years*: un vector que especifica los años a graficar, por defecto, toma todos los que están en la serie
+*ages*: igual que los años, si no se indica, se toman todas las edades disponibles
+*max.age*: la máxima edad a graficar, por defecto, las disponibles
+*transform*: lógico, por defecto TRUE, que indica que los datos se transforman antes de graficar
+*plot.type*: tipo de gráfico pueden ser funciones o tiempo
+*main*: título del gráfico
+*xlab* e *ylab*: rótulos de los ejes
+
+La mayoría de estos argumentos tienen sus valores por defecto y, para un gráfico básico, alcanza con indicar el origen de los datos y la serie elegida. Así, para el logaritmo de tasas de mortalidad (en el eje vertical) por edades (eje horizontal) y año (representado en el color),  se pide simplemente:
+
+```{r}
+plot(USA_mortalidad, series= "Total")
+```
+
+Si no se quiere la transformación logarítmica, se indica:
+```{r}
+plot(USA_mortalidad, series= "Total", transform = FALSE)
+```
+
+Dado que la transformación logarítmica permite apreciar mejor las diferencias y, si se solicita solo de mujeres:
+```{r}
+plot(USA_mortalidad, series= "Female")
+```
+
+Se pueden ajustar las opciones de formato por defecto
+```{r}
+plot(USA_mortalidad, series= "Female", main = "Tasas de mortalidad femeninas en Estados Unidos (1933-2017)", xlab="edad", ylab="Logaritmo de las tasas de mortalidad") 
+```
+
+El todos los gráficos se ve la tendencia general según la cual las tasas tienen un comportamiento similar a lo largo de la vida de las personas y decrecen a lo largo de la historia. El apartamiento del patrón por edades se observa en las edades mayores, donde la caída de la mortalidad aparece más acentuada.
+
+Si se cambia el tipo de gráfico por "tiempo", se visualiza cómo se midifican las tasas esecíficas de mortalidad por edad a lo largo del tiempo. Ahor acada color representa una edad y el eje horizontal es la línea de tiempo. ajustamos los nombres de los ejes:
+
+```{r}
+plot(USA_mortalidad, series= "Total", plot.type = "time",
+     main="USA: Evolución de las tasas específicas \n  de mortalidad por edad (1933-2017)", xlab = "año", ylab = "logaritmo de las tasas de mortalidad")
+```
+
+Al que le haría falta un pequeño ajuste de formato, porque el paquete mantiene el nombre del eje. Se puede modificar con xlab.
+
+Luego de haberse registrado en HMD, hay un comando R que permite acceder a los datos directamente desde la página. El comando es:
+```{r eval=FALSE}
+hmd.mx(country,username,password, label=country)
+```
+
+En el que:
+*country* es el nombre abreviado del país que se soilicita
+*username* y *password*, son los que corresponden a la cuenta creada
+*label* es la etiqueta, que debe coincidir con el nombre del  país que se pidió.
+(todo va entre comillas)
+
+## Tablas de mortalidad
+
+El comando para producir una tabla de mortalidad es `lifetable`, con estructura:
+```{r eval=FALSE}
+lifetable(x, series = names(data$rate)[1], years = data$year,
+  ages = data$age, max.age = min(100, max(data$age)),
+  type = c("period", "cohort"))
+```
+
+data refers to a demogdata file
+series refers to the name of the series to use, defaults to one. In this instance 1 would be female, 2 would be male, 3 would be total
+years=vector of which years to include
+ages=vector of which ages to include
+max.age=age for last row, subsequent rows are combined
+type=period or cohort data
+A period lifetable examines all age groups at the current time
+A cohort lifetable examines a cohort over a long period of time
+
+
+Para construir la tabla de mortalidad para USA en 2016 y guardarla con el nombre "tabla_de_mortalidad", se solicita
+```{r}
+tabla_de_mortalidad=lifetable(USA_mortalidad, series="Total", years=2016)
+```
+
+El  objeto resultante es una lista que contiene las columnas usuales de una tabla de mortalidad:
+
+
+```{r}
+names(tabla_de_mortalidad)
+```
+
+mx= Age or class specific death rates
+qx= Probability of death between this age and the age + 1
+lx= Proportion of the starting population surviving to the next stage
+dx= Proportion of the starting populations dying during this stage
+Lx= The number of person years lived relative to the starting population of that year
+Tx= Average person-years left to live after this year
+ex= Expectation of life at age x, very similar to Tx for this dataset If label la etiqueta del país que se analiza
+
+Y se los puede ver impresos individualmente, por ejemplo, la esperanza de vida para cada edad:
+```{r}
+tabla_de_mortalidad$ex
+```
+
+
+Si hubiésemos pedido más años, por ejemplo el inicio y fin de la serie disponible:
+
+```{r}
+tabla_de_mortalidad_compara=lifetable(USA_mortalidad, series="Total", years=c(1933,2016))
+
+```
+
+Las esperanzas de vida por edades resultan:
+```{r}
+tabla_de_mortalidad_compara$ex
+```
+
+Solo para mujeres:
+
+```{r}
+tabla_de_mortalidad_compara_mujeres=lifetable(USA_mortalidad, series="Female", years=c(1933,2016))
+tabla_de_mortalidad_compara_mujeres$ex
+```
+
+
+La visualización de estos resultados se logra con el comando plot, que, por defecto grafica la esperanza de vida por edad:
+
+```{r}
+plot(tabla_de_mortalidad)
+```
+
+Al que se pueden ajustar título y nombres de los ejes.  
+No hay inconveniente en graficar más de un año:
+
+```{r}
+plot(tabla_de_mortalidad_compara)
+```
+
+El comando `life.expectancy` provee esperanzas de vida para determinadas edades y años; por defecto toma edad cero años y todos los años disponibles. Por ejemplo:
+```{r}
+ev_nac<-life.expectancy(USA_mortalidad, series = "Total")
+ev_nac
+```
+
+Devuelve la esperanza de vida al nacimiento para cada año que hay en la base. Si se quiere algo más preciso, como la esperanza de vida a los 25 años de mujeres en 1945:
+```{r}
+espe_vida_mujeres_25_1945<-life.expectancy(USA_mortalidad, series = "Female", age = 25, years = 1945)
+espe_vida_mujeres_25_1945
+```
+
+
+La función `sexratio` muestra las diferencias en la mortalidad a diferentes edades:  
+
+```{r}
+IM<-sex.ratio(USA_mortalidad)
+plot(IM)
+```
+
+Que muestra el índice de masculinidad de las tasas de mortalidad para diferentes edades, donde cada línea representa una cohorte.
+
+Example Two: Lee Carter Model
+Lee Carter Models allow us to extend our models to the future and predict mortality or life expectancy. While I won’t go too in depth here, it is of note in this package as not many statistical programs have a built in means to perform this task. In order to forecast ahead, our data must first be converted into a Lee-Carter model.
+
+Lets examine the projected total death rates and then project this into the future The lca command requires a demogdata object as its primary input. With many of the other components mirroring what we have seen above. The forecast.lca command utilizes the lca output, and allows you to forecast ahead by the number of years indicated in h. The se and jumpchoice arguments refer to methods of computation which can be examined in more depth on the demography package page. The confidence level for prediction intervals is given by the level argument.
+
+lca2=lca(dat,series=names(dat$rate)[3],years=dat$year,ages=dat$age,max.age=100)
+forecast.lca(lca2, h=50, se=c("innovdrift"), jumpchoice=c("fit"), level=90)
+If we plot our forecasted data we see a similar plotting mechanism as to our initial data plot.
+
+
+
+Figure Five: Projected combined male and female death rates for the years 2017 to 2066
+
+summary(lca2)
+## Lee-Carter analysis
+## 
+## Call: lca(data = dat, series = names(dat$rate)[3], years = dat$year,  
+##  
+## Call:     ages = dat$age, max.age = 100) 
+## 
+## Adjustment method: dt
+## Region: USA
+## Years in fit: 1933 - 2016
+## Ages in fit: 0 - 100 
+## 
+## Percentage variation explained: 96.2%
+## 
+## ERROR MEASURES BASED ON MORTALITY RATES
+## 
+## Averages across ages:
+##       ME      MSE      MPE     MAPE 
+## -0.00001  0.00005  0.00755  0.06977 
+## 
+## Averages across years:
+##      IE     ISE     IPE    IAPE 
+## 0.00005 0.00386 0.75703 6.93471 
+## 
+## 
+## ERROR MEASURES BASED ON LOG MORTALITY RATES
+## 
+## Averages across ages:
+##       ME      MSE      MPE     MAPE 
+##  0.00281  0.00949 -0.00013  0.01660 
+## 
+## Averages across years:
+##       IE      ISE      IPE     IAPE 
+##  0.28073  0.94279 -0.01769  1.60972
+Other commands
+mean.demogdata
+Allows for the computation of the mean or median for the demographic rates at each age level in the supplied demogdata files. Arguments allow for a transformation to be applied ot the data prior to calculation.
+extract.years
+Allows for a vector of values for a specific year or series of years to be extracted from a demogdata object, creating a new specific demogdata object
+extract.ages
+Similar to the above but for ages, if the last argument is true, all the ages beyond the quereyed age are combined into the highest age group given.
+
+
+
+## Biblio
+Human Mortality Database. University of California, Berkeley (USA), and Max Planck Institute for Demographic Research (Germany). Available at www.mortality.org or www.humanmortality.de (data downloaded on [date]).

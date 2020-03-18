@@ -1,0 +1,5 @@
+"0","y <- 3 - 2 * x + rnorm(91)"
+"0","plot(x, y,"
+"0","  xlab = ""valor de x"", ylab = ""valor de y"","
+"0","  main = ""Tendencia lineal decreciente"""
+"0",")"

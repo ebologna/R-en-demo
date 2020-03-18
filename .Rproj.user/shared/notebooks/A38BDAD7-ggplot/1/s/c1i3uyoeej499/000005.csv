@@ -1,0 +1,1 @@
+"0","ggplot(asalariados.con.ingreso.y.horas.cordoba)+geom_histogram(aes(PP08D1), fill=""green"", col=""blue"")"

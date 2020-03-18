@@ -1,0 +1,4 @@
+"0","asalariados.con.ingreso.y.horas.cordoba$cantidad.ocupaciones<-"
+"0","  as.factor(asalariados.con.ingreso.y.horas.cordoba$PP03I)"
+"0","levels(asalariados.con.ingreso.y.horas.cordoba$PP03I)<-"
+"0","  c(""una ocupación"", ""más de una ocupación"")"

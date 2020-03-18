@@ -1,0 +1,3 @@
+"0","write.table(sexo_edad_estudiantes,"
+"0","            ""sexo_edad_estudiantes.csv"","
+"0","            sep = "";"", row.names = FALSE)"

@@ -1,0 +1,8 @@
+"0","prueba_chi<-chisq.test(sexo_por_estado)"
+"0",""
+"0","# es de una clase especifica"
+"0","class(prueba_chi)"
+"1","[1]"
+"1"," ""htest"""
+"1","
+"
