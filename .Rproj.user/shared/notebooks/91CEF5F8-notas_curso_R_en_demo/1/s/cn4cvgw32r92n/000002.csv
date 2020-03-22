@@ -1,3 +1,0 @@
-"0","sexo <- c(rep(1, 7), rep(2, 3))"
-"0","sexo <- as.factor(sexo)"
-"0","levels(sexo) <- c(""varones"", ""mujeres"")"

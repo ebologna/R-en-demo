@@ -1,6 +1,0 @@
-"0","asalariados.con.ingreso.cordoba<-subset("
-"0","  eph.3.18, eph.3.18$CAT_OCUP==3  &"
-"0","    eph.3.18$AGLOMERADO==13 & "
-"0","    eph.3.18$PP08D1>0 &"
-"0","    is.na(eph.3.18$PP08D1)==FALSE)"
-"0",""

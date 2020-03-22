@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 https://www.rdocumentation.org/packages/demography/versions/1.22/topics/demogdata  
 https://rpubs.com/Timexpo/487053  
 
-Para esta sección, se recomienda crear un nuevo poryecto, específico para las operaciones que se realizarán con este paquete. De ese modo se pueden tener los datos fácilmente accesibles.
+Para esta sección, se recomienda crear un nuevo proyecto, específico para las operaciones que se realizarán con este paquete. De ese modo se pueden tener los datos fácilmente accesibles.
 
 Descripción del paquete: "El paquete R `demography` provee funciones para el análisis demográfico, que incluyen: elaboración de tablas de mortalidad, modelización de Lee-Carter, análisis funcional de datos sobre tasas de mortalidad, fecundidad y migración neta, y proyecoines estocásticas de población"
 

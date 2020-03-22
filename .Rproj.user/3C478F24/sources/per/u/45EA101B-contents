@@ -62,3 +62,15 @@ TheilSen <- function(..., weights = NULL) {
   mblm::mblm(...)
 }
 p1+geom_smooth(method = "TheilSen")
+
+
+
+ggplot(
+  asalariados.con.ingreso.y.horas.cordoba, aes(PP3E_TOT, PP08D1))+
+  geom_point()+geom_smooth(se=FALSE, method = "estimador_theil_sen")
+
+ggplot(
+  asalariados.con.ingreso.y.horas.cordoba, aes(PP3E_TOT, PP08D1))+
+  geom_point()+geom_smooth(se=FALSE, method = "lm")
+
+p2+theme_wsj()

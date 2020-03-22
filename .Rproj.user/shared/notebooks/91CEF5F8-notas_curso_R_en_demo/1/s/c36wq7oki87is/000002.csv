@@ -1,6 +1,0 @@
-"0","x <- seq(1, 10, .1)"
-"0","y <- 3 - 2 * x"
-"0","plot(x, y,"
-"0","  xlab = ""valor de x"", ylab = ""valor de y"","
-"0","  main = ""Función lineal decreciente"""
-"0",")"
