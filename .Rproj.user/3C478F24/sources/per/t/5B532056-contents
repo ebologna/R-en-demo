@@ -1,3 +1,4 @@
+installed.packages("rcomma")
 file.choose()
 eph215=read.spss("C:\\Documents and Settings\\Usuario\\Escritorio\\t215_sav\\Individual_t215.sav")
 eph215=as.data.frame(eph215)

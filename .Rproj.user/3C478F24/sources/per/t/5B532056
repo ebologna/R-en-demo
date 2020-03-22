@@ -5,14 +5,14 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "1545064501",
+    "hash" : "277273432",
     "id" : "5B532056",
-    "lastKnownWriteTime" : 1473429414,
-    "last_content_update" : 1473429414,
+    "lastKnownWriteTime" : 1584914661,
+    "last_content_update" : 1584914668395,
     "path" : "~/GitHub/R en demo/ggploteph.R",
     "project_path" : "ggploteph.R",
     "properties" : {
-        "cursorPosition" : "100,41",
+        "cursorPosition" : "0,26",
         "scrollLine" : "0"
     },
     "read_only" : false,

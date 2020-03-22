@@ -1,3 +1,4 @@
+installed.packages("rcomma")
 file.choose()
 eph215=read.spss("C:\\Documents and Settings\\Usuario\\Escritorio\\t215_sav\\Individual_t215.sav")
 eph215=as.data.frame(eph215)
@@ -93,9 +94,9 @@ eph215.desdedbf=read.dbf("E:\\Documents and Settings\\parttimeucc\\Escritorio\\I
 names(eph215.desdedbf)
 class(eph215.desdedbf$NIVEL_ED)
 summary(eph215.desdedbf$NIVEL_ED)
-eph215.desdedbf$educación=factor(eph215.desdedbf$NIVEL_ED,
+eph215.desdedbf$educaci?n=factor(eph215.desdedbf$NIVEL_ED,
                                  levels=c(7,1,2,3,4,5,6))
-table(eph215.desdedbf$educación)
-levels(eph215.desdedbf$educación)=c("no fue", "priinc", "pricom", "secinc",
+table(eph215.desdedbf$educaci?n)
+levels(eph215.desdedbf$educaci?n)=c("no fue", "priinc", "pricom", "secinc",
                                     "seccom", "uniinc","unicomp")
 ###asi anda, pero es igual que desde spss

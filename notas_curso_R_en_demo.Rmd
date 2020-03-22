@@ -55,11 +55,14 @@ Para ilustrar los procedimientos, en este taller se usan datos proveninetes de l
 
 # El software  
 
-## Instalación de R y RStudio
+## Instalación local de R y RStudio
 
 En [http://cran.r-project.org](http://cran.r-project.org) "Download R for [Linux, Mac o Windows]", y luego "install R for the first time". Una vez descargado, se instala siguiendo las instrucciones de las pantallas, aceptando las opciones por defecto que se ofrecen. 
 
-Una vez que R está instalado, se debe sumar RStudio. El lugar de descarga es [http://www.rstudio.com/products/rstudio/download/](http://www.rstudio.com/products/rstudio/download/). Allí se elige la version gratis (free version) de RStudio Desktop y se baja hasta encontrar el sistema operativo y la version que corresponda a nuestro equipo. Luego se ejecuta el instalador de RStudio y se eligen las opciones por defecto. Cuando esté ya instalado, se accede por medio de RStudio; si al instalar R se creó un acceso directo a R en el escritorio, se lo puede eliminar. Al abrir RStudio, R es detectado automáticamente y desde allí operaremos.
+Una vez que R está instalado, se debe sumar RStudio. El lugar de descarga es [http://www.rstudio.com/products/rstudio/download/](http://www.rstudio.com/products/rstudio/download/). Allí se elige la version gratis (free version) de RStudio Desktop y se baja hasta encontrar el sistema operativo y la version que corresponda a nuestro equipo. Luego se ejecuta el instalador de RStudio y se eligen las opciones por defecto. Cuando esté ya instalado, se accede por medio de RStudio; si al instalar R se creó un acceso directo a R en el escritorio, se lo puede eliminar. Al abrir RStudio, R es detectado automáticamente y desde allí operaremos.  
+
+## RStudio en la nube  
+A los fines de este taller, se creará una cuenta en RStudio cloud y en ella, un nuevo proyecto desde un repositorio (repo) existente en GitHub. La dirección es https://github.com/ebologna/R-en-demo.git. Si se desea, se puede hacer la instalación local de R y RStudio como se indica arriba y descargar los archivos de ese repositorio.  
 
 ## Los componentes de RStudio {.unnumbered}
 
@@ -88,10 +91,11 @@ install.packages("ggthemes")
 install.packages("mblm")
 install.packages("RColorBrewer")
 install.packages("viridis")
+install.packages("demography")
 ```
 
-Estas instalaciones se realizan por única vez en cada computadora y, en cada sesión que vayan a usarse, se deberán cargar con la instrucción `library()`.  
-Trabajaremos primero con los comandos que trae el paquete *base*, que viene por defecto con la instalación de R.  
+Estas instalaciones se realizan por única vez en cada computadora y luego, en cada sesión que vayan a usarse, se deberán cargar con la instrucción `library()`.  
+Trabajaremos primero con los comandos que trae el paquete `base`, que viene por defecto con la instalación de R.  
 
 ## Escribir y ejecutar comandos  
 
