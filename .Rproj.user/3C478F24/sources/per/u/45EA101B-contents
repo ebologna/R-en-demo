@@ -74,3 +74,9 @@ ggplot(
   geom_point()+geom_smooth(se=FALSE, method = "lm")
 
 p2+theme_wsj()
+
+
+ggplot(
+  asalariados.con.ingreso.y.horas.cordoba, aes(PP08D1))+
+  geom_histogram(aes(y=..density..), bins=25)+
+  geom_density(bins=25)

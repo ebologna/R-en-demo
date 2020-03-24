@@ -1,5 +1,6 @@
 ---
 title:  |
+  | Doctorado en Demografía
   | Taller de Introducción a R en entorno RStudio
   | Notas de clase
   
@@ -9,7 +10,11 @@ author: |
   | eduardo.leon.bologna@unc.edu.ar
 
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: pdf_document
+output:
+  pdf_document:
+    toc: true
+    toc_depth: 2
+bibliography: library.bib
 ---
 
 
@@ -22,7 +27,7 @@ options(scipen=10000)
 # Presentación  
 Este curso es una introducción a R dirigido a investigadores en Ciencias Sociales y busca facilitar la aproximación a un software cuyo uso en investigación tiene ventajas que superan en mucho las dificultades que suelen aparecer en los primeros intentos.   
 
-Para realizar análisis de datos existen numerosos programas informáticos, que se ocupan de los procesos computacionales, de manera que el usuario solo deba decidir qué procedimiento aplicar, cuidar que se cumplan las condiciones que hacen válido al procedimiento (los supuestos) y realizar una lectura correcta y completa del resultado que se obtiene, sin involucrarse con las operaciones de cálculo. Estos programas o "paquetes estadísticos" reúnen en un entorno único las operaciones más frecuentemente usadas por investigadores y analistas de datos y las ponen al alcance del usuario no especializado. Algunos de uso muy común son SPSS, SAS, INFOSTAT, STATA, STATISTICAL, etc. De la larga lista de opciones disponibles, este manual usa un software que se llama R, elección que se fundamenta en que R es varias cosas al mismo tiempo:
+Para realizar análisis de datos existen numerosos programas informáticos, que se ocupan de los procesos computacionales, de manera que el usuario solo deba decidir qué procedimiento aplicar, cuidar que se cumplan las condiciones que hacen válido al procedimiento (los supuestos) y realizar una lectura correcta y completa del resultado que se obtiene, sin involucrarse con las operaciones de cálculo. Estos programas o "paquetes estadísticos" reúnen en un entorno único las operaciones más frecuentemente usadas por investigadores y analistas de datos y las ponen al alcance del usuario no especializado. Algunos de uso muy común son SPSS, SAS, INFOSTAT, STATA, STATISTICAL, etc. Aun así, hay razones para optar por R, manejar sus rudimentos es una inversión de tiempo que se vuelve una puerta de entrada a múltiples posibilidades. Esto se fundamenta en que R es varias cosas al mismo tiempo:
 
 Es un software para análisis de datos: lo usan profesionales de la estadística, analistas de datos e investigadores de diversas disciplinas para extraer significado de información cuantitativa, para hacer descripciones e inferencias, visualización de datos y modelización predictiva.
 
@@ -32,26 +37,26 @@ Es un ambiente para el análisis estadístico: en R hay funciones para práctica
 
 Es un proyecto de código abierto: esto significa no solo que se lo puede descargar y usar gratis, sino que el código es abierto y cualquiera puede inspeccionar o modificar las rutinas. Como sucede con otros proyectos de código abierto, como Linux, R ha mejorado sus códigos tras varios años de "muchos ojos mirando" y aportando soluciones. También como otros proyectos de código abierto, R tiene interfaces abiertas, por lo que se integra fácilmente a otras aplicaciones y sistemas.
 
-Es una comunidad: R fue inicialmente desarrollado por Robert Gentleman y Ross Ihaka [@Ross1996], del Departamento de Estadística de la Universidad de Auckland, en 1993 y desde entonces el grupo que dirige el proyecto ha crecido y se ha difundido por el mundo. Además, miles de otras personas han contribuido con funcionalidades adicionales por medio del aporte de "paquetes" que utilizan los 2 millones de usuarios de todo el mundo. Como resultado, existe una intensa comunidad de usuarios de R on-line, con muchos sitios que ofrecen recursos para principiantes y para expertos. A esa comunidad se puede recurrir para consultas y para salvar dificultades, son muy activas y dispuestas a ayudar.
+Es una comunidad: R fue inicialmente desarrollado por Robert Gentleman y Ross Ihaka [@Ross1996], del Departamento de Estadística de la Universidad de Auckland, en 1993 y desde entonces el grupo que dirige el proyecto ha crecido y se ha difundido por el mundo. Además, miles de otras personas han contribuido con funcionalidades adicionales por medio del aporte de "paquetes" que utilizan los 2 millones de usuarios de todo el mundo. Como resultado, existe en la web una intensa comunidad de usuarios de R, con muchos sitios que ofrecen recursos para principiantes y para expertos. A esa comunidad se puede recurrir para consultas y para salvar dificultades, son muy activas y dispuestas a ayudar.
 
 
 R integra programas llamados paquetes, que sirven para realizar análisis específicos. Los paquetes son rutinas que realizan conjuntos de operaciones especializadas, y una de las potencialidades de R es que diferentes investigadores pueden  desarrollar paquetes para determinados tipos de análisis y ponerlos a disposición de los demás usuarios. En la actualidad hay más de 10000 paquetes y el conjunto crece porque la comunidad R es muy activa y continuamente se hacen aportes. 
-
-Actualmente, los principales medios de comunicación usan R para expresar datos de manera gráfica.
 
 No solo cuenta con los métodos estándar sino que, debido a que los principales avances en procedimientos estadísticos se realizan en R, las técnicas más actualizadas están usualmente primero disponibles en R, a los desarrolladores de paquetes comerciales les lleva más tiempo poner las actualizaciones al alcance de los usuarios. Y los usuarios a menudo deben pagar por las actualizaciones.
 
 Permite la reproducción de los análisis por parte de cualquiera que conozca el código que se aplicó, por lo que aporta una herramienta necesaria en los proyectos de ciencia abierta, en especial para la reproducibilidad de los resultados.
 
-Por estas razones, R es uno de los lenguajes de programación que más uso tiene y se está convirtiendo en la lingua franca del análisis de datos.
+Por estas razones, R es uno de los lenguajes de programación que más uso tiene y se está convirtiendo en la *lingua franca* del análisis de datos.
 
-Como lenguaje, R tiene varias interfaces gráficas, que es el modo en que las personas puede interactuar con él. R es el motor y del mismo modo en que, para manejar un auto no hace falta saber cómo funciona el motor, también aquí será suficiente contar con un buen conjunto de comandos (volante, pedales…) para hacer uso de la potencia de ese motor, la interface provee esos comandos. De las interfaces existentes, hemos elegido RStudio [@RStudioTeam2018] que es un entorno de desarrollo integrado (IDE) de R para facilitar la edición de código que ofrece diversas herramientas para hacer muy accesible el uso de R por parte de quienes no se dedican a la programación, sino que son usuarios de procedimientos estadísticos. Además, es posible crear una cuenta en  RStudio cloud (https://rstudio.cloud/), desarrollar allí un proyecto o bien subir uno que se tenga en curso, y trabajar con todos los archivos disponibles en la nube, sin necesidad de instalar localmente el software.  
-Una línea de tiempo sobre el desarrollo de R puede encontrar en https://blog.revolutionanalytics.com/2017/10/updated-history-of-r.html  
+Como lenguaje, R tiene varias interfaces gráficas, que es el modo en que las personas puede interactuar con él. R es el motor y del mismo modo en que, para manejar un auto no hace falta saber cómo funciona el motor, también aquí será suficiente contar con un buen conjunto de comandos (volante, pedales…) para hacer uso de la potencia de ese motor, la interface provee esos comandos. De las interfaces existentes, hemos elegido RStudio [@RStudioTeam2018] que es un entorno de desarrollo integrado (IDE) de R para facilitar la edición de código que ofrece diversas herramientas, para hacer muy accesible el uso de R por parte de quienes no se dedican a la programación, sino que son usuarios de procedimientos estadísticos. Además, es posible crear una cuenta en  RStudio cloud (https://rstudio.cloud/), desarrollar allí un proyecto o bien subir uno que se tenga en curso, y trabajar con todos los archivos disponibles en la nube, sin necesidad de instalar localmente el software.  
+Una línea de tiempo sobre el desarrollo de R, se puede encontrar en https://blog.revolutionanalytics.com/2017/10/updated-history-of-r.html  
 
-Este curso busca proveer una primera aproximación a este entorno para quienes tienentengan o no experiencia en otros programas de análisis de datos y cuenten con una base conceptual de estadística.
+Este curso-taller busca proveer una primera aproximación a este entorno para quienes tengan o no experiencia en otros programas de análisis de datos y cuenten con una base conceptual de estadística.  
+RStudio es una interfaz con bastantes ayudas para el usuario, por ejemplo, tiene autocompletado para comandos y para objetos existentes. Además, durante la sesión de trabajo, se puede pedir ayuda sobre los comandos con un signo de interrogación delante de él, de ese modo se abre un archivo que da detalles sobre el uso del comando pedido. Fuera de eso, en la web hay mucha ayuda disponible.  
+La dinámica sugerida de trabajo consiste en reproducir los comandos que se indican en este texto e introducir variaciones sobre cada uno, para ver los resultados. Las ayudas, tanto las que están incorporadas en el software como las que se encuentran en la web, sirven como inspiración para explorar variaciones en la sintaxis.  
 
 # Los datos  
-Para ilustrar los procedimientos, en este taller se usan datos proveninetes de la Encuesta Permanente de Hogares. La EPH es un programa nacional de producción permanente de indicadores sociales cuyo objetivo es conocer las características socioeconómicas de la población. Es realizada en forma conjunta por el Instituto Nacional de Estadística y Censos (INDEC) y las Direcciones Provinciales de EstadÌstica (DPE) (@INDEC2003). Los datos se recogen por medio de dos cuestionarios; uno de ellos que pregunta por características del hogar y la vivienda y el otro por las personas individualmente.
+Para ilustrar los procedimientos, en este taller se usan datos provenientes de la Encuesta Permanente de Hogares. La EPH es un programa nacional de producción permanente de indicadores sociales cuyo objetivo es conocer las características socioeconómicas de la población. Es realizada en forma conjunta por el Instituto Nacional de Estadística y Censos (@INDEC2011a) y las Direcciones Provinciales de EstadÌstica (DPE) (@INDEC2003). Los datos se recogen por medio de dos cuestionarios; uno de ellos que pregunta por características del hogar y la vivienda y el otro por las personas individualmente.
 
 # El software  
 
@@ -62,14 +67,16 @@ En [http://cran.r-project.org](http://cran.r-project.org) "Download R for [Linux
 Una vez que R está instalado, se debe sumar RStudio. El lugar de descarga es [http://www.rstudio.com/products/rstudio/download/](http://www.rstudio.com/products/rstudio/download/). Allí se elige la version gratis (free version) de RStudio Desktop y se baja hasta encontrar el sistema operativo y la version que corresponda a nuestro equipo. Luego se ejecuta el instalador de RStudio y se eligen las opciones por defecto. Cuando esté ya instalado, se accede por medio de RStudio; si al instalar R se creó un acceso directo a R en el escritorio, se lo puede eliminar. Al abrir RStudio, R es detectado automáticamente y desde allí operaremos.  
 
 ## RStudio en la nube  
-A los fines de este taller, se creará una cuenta en RStudio cloud y en ella, un nuevo proyecto desde un repositorio (repo) existente en GitHub. La dirección es https://github.com/ebologna/R-en-demo.git. Si se desea, se puede hacer la instalación local de R y RStudio como se indica arriba y descargar los archivos de ese repositorio.  
+A los fines de este taller, cada cursante creará una cuenta en RStudio cloud (en https://rstudio.cloud/) y una vez abierta, se crea un nuevo proyecto desde un repositorio (repo) existente en GitHub. La dirección es https://github.com/ebologna/R-en-demo.git y allí se encuentra un directorio llamado "materiales taller R" que contiene los archivos que se usarán en adelante. Alternativamente, se puede hacer la instalación local de R y RStudio como se indica arriba y descargar los archivos de ese repositorio.  
 
 ## Los componentes de RStudio {.unnumbered}
 
-Cuando abrimos RStudio, vamos a encontrar tres paneles, uno a la izquierda, más grande, y dos a la derecha. En "file" se solicita un nuevo script, que se abre a la izquierda y ahora quedan cuatro paneles: 
+Cuando abrimos RStudio localmente, se observan tres paneles, uno a la izquierda, más grande, y dos a la derecha. En "file" se solicita un nuevo script, que se abre a la izquierda y ahora quedan cuatro paneles: 
 
 
 ![Los cuatro paneles de RStudio](imagenes/entornoRStudio.png)
+
+Cuando se abre en la nube y se descarga un proyecto existente, aparecen directamente estos cuatro paneles.  
 
 - Superior izquierdo es el script que se acaba de abrir, un documento editable en el que se escriben los comandos.
 
@@ -94,12 +101,12 @@ install.packages("viridis")
 install.packages("demography")
 ```
 
-Estas instalaciones se realizan por única vez en cada computadora y luego, en cada sesión que vayan a usarse, se deberán cargar con la instrucción `library()`.  
+Estas instalaciones se realizan por única vez en cada computadora o en cada proyecto creado en RStudio cloud y luego, en cada sesión que vayan a usarse, se deberán cargar con la instrucción `library()`.  
 Trabajaremos primero con los comandos que trae el paquete `base`, que viene por defecto con la instalación de R.  
 
-## Escribir y ejecutar comandos  
+# Escribir y ejecutar comandos  
 
-Antes de empezar a operar es necesario crear un lugar donde se alojarán los archivos que vamos a usar. Ese lugar, en R se llama "proyecto". Así, la primera acción será en File $\rightarrow$ New Project $\rightarrow$ New Directory $\rightarrow$ New Project, darle un nombre y definir su ubicación en la computadora en que se trabaje. Si esa ubicación es una carpeta sincronizada (de drive o dropbox u otra) todos los archivos necesarios para trabajar en el proyecto estarán disponibles.  
+Si no se está trabajando en la nubes, antes de empezar a operar es necesario crear un lugar donde se alojarán los archivos que se van a usar. Ese lugar, en R se llama "proyecto". Así, la primera acción será en File $\rightarrow$ New Project $\rightarrow$ New Directory $\rightarrow$ New Project, darle un nombre y definir su ubicación en la computadora en que se trabaje. Si esa ubicación es una carpeta sincronizada (de drive o dropbox u otra) todos los archivos necesarios para trabajar en el proyecto estarán disponibles. Si se trabaja localmente (con RStudio instalado en la PC), es en esa carpeta donde deben copiarse los archivos bajados de GitHub.  
 
 El script es un editor de textos en que se escriben comandos y se ejecutan, ya sea con el botón “run” o con una combinación de teclas que, según la configuración puede ser Ctrl+R o Ctrl+Enter. Una vez escrita la instrucción, se solicita su ejecución y se obtiene el resultado.
 
@@ -109,8 +116,9 @@ El script es un editor de textos en que se escriben comandos y se ejecutan, ya s
 
 Los elementos que maneja R son objetos: un número, un vector, una base de datos, una tabla y muchos otros. Inicialmente, los que interesan a fin del análisis de datos son: vectores y matrices de datos.
 
-## Clases de objeto  
+# Clases de objeto  
 
+## Constantes  
 Un objeto numérico puede tener un valor fijo, si definimos a **x** como el número 3  
 
 ```{r echo=TRUE}
@@ -153,9 +161,9 @@ class(t)
 
 Es carácter, para que lo acepte como valor nuevo, se debe poner entre comillas; de lo contrario, si se escribe:
 
-$t<-a$
+$t\ <-\ a$
 
-Buscará ese objeto, que no ha sido definido antes y dará error. Esta cualidad se puede usar cuando los números codifican categorías, como cuando se usa 1 para varones y 2 para mujeres:
+Buscará ese objeto, que no ha sido definido antes y dará error. Esta forma de distinguir valores numéricos de textos se puede usar cuando los números codifican categorías, como cuando se usa 1 para varones y 2 para mujeres:
 
 ```{r echo=TRUE}
 u <- "1"
@@ -183,16 +191,19 @@ class(u)
 Pero si intentáramos eso con **t**, el resultado falla, porque no se interpreta un valor numérico.
 
 
-Los valores textuales corresponden a dos clases diferentes de objetos R: caracteres y factores, que difieren en el modo en que R los almacena internamente. Los factores se guardan como números y una tabla que hace corresponder a cada uno un texto, mientras que los vectores de caracteres se guarda cada texto como un valor, por lo que consume más memoria. Por defecto, los valores textuales son tomados como ed clase caracer. Sea $x$ el valor "a":
+Los valores textuales corresponden a dos clases diferentes de objetos R: caracteres y factores, que difieren en el modo en que R los almacena internamente. Los factores se guardan como números y una tabla que hace corresponder a cada uno un texto, mientras que los caracteres se guardan como un valor para cada expresión textual, por lo que consumen más memoria. Por defecto, los valores textuales son tomados como de clase `caracter`. Sea $x$ el valor "a":
 
 ```{r echo=TRUE}
 x<-"a"
-class(x) # carácter
-
-# Transformado a numérico:
-x<-as.numeric(x) # produce NA
+class(x)
 ```
 
+Transformado a numérico:
+```{r echo=TRUE}
+x<-as.numeric(x)
+```
+
+Produce NA (not available)
 ```{r echo=TRUE}
 x
 ```
@@ -201,13 +212,15 @@ Si se lo define como factor:
 ```{r echo=TRUE}
 x<-as.factor("a")
 levels(x)
-# llevado a numérico:
-x<-as.numeric(x) 
-x
-
 ```
 
-Le asigna el número 1.
+Llevado a numérico:
+```{r}
+x<-as.numeric(x) 
+x
+```
+
+Le asigna el número 1, a la única categoría que tiene **x** la codifica internamente como **1**.  
 
 Cuando el objeto es un número, se puede operar simplemente con él
 
@@ -245,13 +258,13 @@ Para elevar a una potencia se usa ^, por ejemplo, para hacer dos a la tercera po
 ```
 
 
-O $x$ (que está guardado con el valor 3) a la quinta potencia:
+O **x** (que está guardado con el valor 3) a la quinta potencia:
 
 ```{r echo=TRUE}
 x^5
 ```
 
-Las raíces son potencias fraccionarias, por lo que puede conseguirse la raíz cuadrada de $x$ así:
+Las raíces son potencias fraccionarias, por lo que puede conseguirse la raíz cuadrada de **x** así:
 
 ```{r echo=TRUE}
 x^(1/2)
@@ -275,13 +288,15 @@ Un comando útil es el de redondeo. Si no queremos expresar la raiz de siete con
 x <- sqrt(7)
 x
 round(x, 2)
-## o todo de una sola vez:
+```
+
+O todo de una sola vez:
+```{r}
 round(sqrt(7), 2)
 ```
 
-
 ## Vectores  
-Cuando se trabaja con variables, el conjunto de valores que asume es un objeto que se llama vector. Se lo genera con una letra $c$ y paréntesis que indica concatenar valores. Por definición, un vector contiene elementos de la misma clase:
+Cuando se trabaja con variables, el conjunto de valores que asume es un objeto que se llama vector. Se lo genera con una letra **c** y paréntesis que indica concatenar valores. Por definición, un vector contiene elementos de la misma clase:
 
 ```{r echo=TRUE}
 a <- c(1, 5, 8)
@@ -328,7 +343,12 @@ sum(pib5) / 5
 ```
 
 
-Pero para esto hay una función de biblioteca que calcula la media (promedio) directamente.
+Pero para esto hay una función de biblioteca que calcula la media (promedio) directamente. Veamos su ayuda:
+
+```{r echo=TRUE, eval=FALSE}
+?mean
+```
+Además de la variable que se va a promediar ($x$), tiene un argumento $trim$, que por defecto viene fijado en cero, sirve para el cómputo de la media recortada, en la misma ayuda está su explicación. Dice además que, por defecto, $na.rm=FALSE$, luego veremos qué significa eso.
 
 ```{r echo=TRUE}
 mean(pib5)
@@ -342,11 +362,10 @@ pib5_10
 ```
 
 
-Un vector puede crearse de este modo, concatenando varios valores, o bien como secuencia de números, por ejemplo creamos el vector $diez.pri$ como la secuencia de los números que van del 1 al 10, y pedimos que se muestre:  
+Un vector puede crearse de este modo, concatenando varios valores, o bien como secuencia de números, por ejemplo creamos el vector $diez.pri$ como la secuencia de los números que van del 1 al 10, y pedimos que se muestre (encerrando entre paréntesis la expresión):  
 
 ```{r echo=TRUE}
-diez.pri <- 1:10
-diez.pri
+(diez.pri <- 1:10)
 ```
 
 Como puede verse, una vez que los objetos han sido creados, RStudio ofrece el autocompletado, eso vale también para comandos, por lo que no hace falta recordar con precisión el nombre de cada uno, se empieza a escribirlo y RStudio lo sugiere.  
@@ -371,7 +390,7 @@ O el valor "perro", tres veces:
 rep("perro", 3)
 ```
 
-Estas maneras de generar secuencias pueden combinarse:
+Estas maneras de generar secuencias pueden combinarse (o concatenarse):
 
 ```{r echo=TRUE}
 c(1:5, seq(1, 7, .8), rep(65, 4))
@@ -437,7 +456,7 @@ O si uno dividido cero es infinito:
 is.infinite(1 / 0)
 ```
 
-Estos comandos da un resultado de clase lógica, con FALSE y TRUE como posibilidades.  
+Estos comandos dan resultados de clase lógica, con `FALSE` y `TRUE` como posibilidades.  
 
 Los corchetes, [], permiten seleccionar elementos de un vector. La lectura es que, del vector, se retienen los valores que cumplen con la condición que está dentro del corchete. Se define $z$, como la secuencia de 1 a 6 y luego a h como los elementos de z que sean menores a 5:
 ```{r echo=TRUE}
@@ -489,7 +508,7 @@ Entonces, se crea una matriz de datos con el comando:
 sexo_edad_estudiantes <- data.frame(sexo, edad)
 ```
 
-En el panel superior derecho han aparecido los objetos que acaban de crearse. De este último se indica allí la cantidad de casos (observaciones) y de varables. Cuando se lo cliquea, se obtiene una vista en una ventana separada del script.  
+En el panel superior derecho han aparecido los objetos que acaban de crearse. De este último se indica allí la cantidad de casos (observaciones) y de variables. Cuando se lo cliquea, se obtiene una vista en una ventana separada del script.  
 La misma vista puede lograrse con el comando:  
 
 ```{r  echo=TRUE, eval = FALSE}
@@ -514,7 +533,7 @@ Los nombres (names) son las denominaciones de las columnas (las variables), la c
 sexo_edad_estudiantes$sexo
 ```
 
-El signo pesos separa el nombre de la matriz de datos del nombre de la variable: df$x quiere decir, la variable "x", perteneciente a la matriz "df".   
+El signo pesos separa el nombre de la matriz de datos del nombre de la variable: df$x quiere decir, la variable **x** perteneciente a la matriz **df**.   
 Los números entre corchetes (el [1] y [9] en este ejemplo) indican el número del primer elemento de esa fila. Podemos preguntar de qué clase es este vector:
 
 ```{r echo=TRUE}
@@ -529,7 +548,7 @@ levels(sexo_edad_estudiantes$sexo)
 Y se los puede redefinir:  
 
 ```{r echo=TRUE}
-levels(sexo_edad_estudiantes$sexo) <- c("femenino", "masculino")
+levels(sexo_edad_estudiantes$sexo) <- c("masculino", "femenino")
 ```
 
 Ahora la matriz se ve:
@@ -545,7 +564,7 @@ write.table(sexo_edad_estudiantes,
             sep = ";", row.names = FALSE)
 ```
 
-Hemos pedido que escriba la tabla con el mismo nombre (no es obligación), como archivo csv y que no ponga nombre a las filas. Esto pultimo es necesario, orque de los contrario aparece una nueva columna y los nombres de las variables se desplazan una celda a la izquierda.  Como no indicamos otra cosa, la matriz será guerdada en el directorio de trabajo.  
+Hemos pedido que escriba la tabla con el mismo nombre (no es obligación), como archivo csv y que no ponga nombre a las filas. Esto último es necesario, porque de lo contrario aparece una nueva columna y los nombres de las variables se desplazan una celda a la izquierda.  Como no indicamos otra cosa, la matriz será guardada en el directorio de trabajo.  
 
 El primer resumen útil de las variables de una matriz de datos es la tabla univariada. Para cada una de las dos variables, tenemos:  
 ```{r echo=TRUE}
@@ -564,7 +583,7 @@ eph.3.18 <- read.table("usu_individual_T318.txt",
 Hemos indicado:  
 
 - El nombre del archivo a leer junto con la ruta para llegar a él, muy conveniente que esté en el directorio de trabajo.  
-- El separador de campos: suelen ser comas, punto y comas, tabulaciones, espacio en blanco o pipe | (alt124 en windows). Si los campos están separados por comas, se indica $sep=","$ y así con los demás separadores, siempre entrecomillados.  
+- El separador de campos: suelen ser comas, punto y comas, tabulaciones, espacio en blanco o pipe | (alt+124 en windows). Si los campos están separados por comas, se indica $sep=","$ y así con los demás separadores, siempre entrecomillados.  
 - Que el archivo tiene encabezado: este es el caso casi siempre, porque la primera fila de la matriz de datos tiene los nombres de las variables. Se indica: $header=TRUE$.  
 - Si a los casos perdidos estuviesen codificados de algún modo particular, por ejemplo como 9999, debe indicarse $na.strings="9999"$.  
 Conviene mirar la base original, desde el archivo .txt, que puede abrirse con bloc de notas, para asegurarse qué sepadores tiene.
@@ -572,30 +591,10 @@ Conviene mirar la base original, desde el archivo .txt, que puede abrirse con bl
 En el panel superior derecho aparece la matriz de datos y su tamaño. 
 
 
-## Graficar  
-Para ver un ejemplo de gráfico básico, puede copiar y pegar el siguiente código en su script. Allí se define a $x$ como una secuencia de números que va de 1 a 10 en intervalos de 0.1. Luego se define $y$ como una función lineal de $x$ ($y=3-2*x$). El tercer comando indica que se grafiquen las dos variables y les pone nombre a los ejes y al título del gráfico.
 
-```{r echo=TRUE}
-x <- seq(1, 10, .1)
-y <- 3 - 2 * x
-plot(x, y,
-  xlab = "valor de x", ylab = "valor de y",
-  main = "Función lineal decreciente"
-)
-```
+# Resumen de datos  
 
-A la función se puede agregar una perturbación aleatoria, en este caso se suman 91 casos (que es la cantidad de valores que tiene x) provenientes de una distribución normal con media uno y desviación estándar cero:
-```{r}
-y <- 3 - 2 * x + rnorm(91)
-plot(x, y,
-  xlab = "valor de x", ylab = "valor de y",
-  main = "Tendencia lineal decreciente"
-)
-```
-
-
-## Resumen de datos  
-
+## Distribuciones de frecuencia  
 Trabajamos a continuación con la base de la EPH, que ya está leída y se llama eph.3.18
 
 ```{r echo=TRUE}
@@ -629,13 +628,13 @@ class(tabla.sexo)
 
 # se agregan los totales:
 addmargins(table(eph.3.18$sexo))
-addmargins(table(eph.3.18$ESTADO))
+addmargins(tabla.sexo)
 
 # Y frecuencias relativas:
 prop.table(tabla.sexo)
 
 # Frecuencias relativas multiplicadas por 100 y
-# redondeadas a 2 dos decimales
+# redondeadas a dos decimales
 round(100*prop.table(table(eph.3.18$sexo)), 2)
 
 ```
@@ -684,7 +683,12 @@ Para usar los ponderadores, usaremos el paquete diseñado para análisis de dato
 library(questionr)
 ```
 
-El comando de este paquete para tabñas ponderadas es *wtd.table* y requiere que se indique el vector de ponderadores:
+El comando de este paquete para tablas ponderadas es *wtd.table* y requiere que se indique el vector de ponderadores. Si no lo recordamos, se pregunta por el paquete:
+```{r eval=FALSE}
+?questionr
+```
+
+Y se abre, en el panel inferior derecho la ayuda (en Index), allí está el listado de comandos que tiene el paquete, con una breve descripción. Si se elige $wtd.table$ se muestra su sintaxis y los argumentos que acepta; allí puede verse, por ejemplo que $na.rm$ es verdadero por deecto, de modo que, a diferencia de los comandos para pedir media, mediana, etc., si hay casos predidos los va a descartar automáticamente. Aquí solo vamos a usar como argumentos la variable y los ponderadores.  
 
 ```{r echo=TRUE}
 wtd.table(eph.3.18$sexo, weights = eph.3.18$PONDERA)
@@ -704,7 +708,7 @@ addmargins(wtd.table(eph.3.18$ESTADO, eph.3.18$sexo,
 ```
 
 
-El primer análisis sobre una tabla bivariada es una prueba de independencia ($\chi^2$):
+Un análisis frecuente sobre tablas bivariadas es una prueba de independencia ($\chi^2$):
 ```{r echo=TRUE}
 chisq.test(sexo_por_estado)
 
@@ -752,7 +756,7 @@ eph.3.18$educacion<-factor(eph.3.18$educacion,
 # la cruzamos con la original para verificar
 table(eph.3.18$educacion, eph.3.18$NIVEL_ED)
 
-# ahora ponemos nombres a los niveles
+# y ponemos nombres a los niveles
 levels(eph.3.18$educacion)<-c("sin instruccion", "primaria incompleta",
                               "primaria completa", "secundaria incompleta", "secundaria completa",
                               "universitaria incompleta", "universitaria completa")
@@ -760,7 +764,7 @@ table(eph.3.18$educacion)
 
 ```
 
-Si más tarde la queremos usar como numérica (con los números que respeten el orden de las categorías), definimos otra variable:
+Si más tarde la queremos usar como numérica (ahora que los números respetan el orden de las categorías), definimos otra variable:
 
 ```{r echo=TRUE}
 
@@ -775,7 +779,7 @@ Para seleccionar un subconjunto de casos o de variables de una matriz de datos, 
 - - no  
 - & y  
 - | o  
-- is.na() es caso perdido  
+- is.na() ¿es caso perdido?  
 
 Los operadores dan resultado verdadero o falso (TRUE, FALSE), por ejemplo:
 
@@ -787,7 +791,8 @@ Los operadores dan resultado verdadero o falso (TRUE, FALSE), por ejemplo:
 2>1 | 3>5
 ```
 
-Vamos a usar estas expresiones para corregir la codificación de la edad (CH06), que en la EPH se asigna a  las personas menores de un año, el valor $-1$, cuando sería más adecuado $0$. Para reasignar, defimos una nueva variable en la base, la llamamos $edad$ y es una copia de CH06:
+## Medidas descriptivas  
+Vamos a usar los operadores lógicos para corregir la codificación de la edad (CH06), que en la EPH se asigna a  las personas menores de un año, el valor $-1$, cuando sería más adecuado $0$. Para reasignar, defimos una nueva variable en la base, la llamamos $edad$ y es una copia de CH06:
 ```{r}
 eph.3.18$edad<-eph.3.18$CH06
 ```
@@ -797,8 +802,8 @@ Luego asignamos a $edad$ el valor $0$ allí donde CH06 valga $-1$. Los corchetes
 eph.3.18$edad[eph.3.18$CH06==-1]<-0
 
 ```
-
-Las sentencias lógicas sirven para seleccionar casos o variables, si es quiere definir una  nueva matriz de datos que solo contenga asalariados del aglomerado Gran Córdoba, que hayan declarado un ingreso no nulo, el comando es:
+La instrucción dice "allí donde la variable $CH06$ de la base $eph.3.18$ tome el valor $-1$, asignar a la variable $edad$ de la base $eph.3.18$, el valor $0$".  
+Las sentencias lógicas sirven para seleccionar casos o variables, si es quiere definir una  nueva matriz de datos que solo contenga asalariados del aglomerado Gran Córdoba, que hayan declarado un ingreso no nulo ni perdido, el comando es:
 
 ```{r echo=TRUE}
 asalariados.con.ingreso.cordoba<-subset(
@@ -808,6 +813,8 @@ asalariados.con.ingreso.cordoba<-subset(
     is.na(eph.3.18$PP08D1)==FALSE)
 
 ```
+
+Así se define la nueva matriz de datos $asalariados.con.ingreso.cordoba$ como el subconjunto de eph.3.18 que cumple las cuatro condiciones simultáneamente (&).  
 
 Dado que el ingreso salarial (PP08D1) en numérico, el comando *summary* no genera una tabla sino que muestra medidas descriptivas:
 ```{r}
@@ -832,13 +839,11 @@ La media falla
 ```{r echo=TRUE}
 mean(x)
 ```
-Para excluir los $NA$ se indica que active la función "quitar NA":
+Para excluir los NA se indica que active la función "quitar NA":
 ```{r echo=TRUE}
 mean(x, na.rm = TRUE)
 ```
-Esto vale para todas las operaciones resumen, se deben quitar lo $NA$ para que devuelva el resultado.  
-
-
+Esto vale para todas las operaciones resumen, se deben quitar los NA para que devuelva el resultado.  
 
 No hay función de biblioteca para el coeficiente de variación, por lo que debe calcularse:
 ```{r echo=TRUE}
@@ -878,15 +883,15 @@ cv(asalariados.con.ingreso.cordoba$PP08D1)
 
 Si en lugar de "paste" se usa "paste0" se elimina el espacio entre el número y el signo.  
 
-## Intensidad de las asociaciones  
+# Relaciones entre variables  
 
-### Variables nominales
-El paquete "questionr" trae el cálculo del coeficiente V de Cramer, que tiene como argumento una tabla, por ejemplo, para evaluar la intensidad de la relación entre sexo y condición de actividad:
+## Variables nominales
+El paquete `questionr` trae el cálculo del coeficiente V de Cramer, que tiene como argumento una tabla, por ejemplo, para evaluar la intensidad de la relación entre sexo y condición de actividad:
 ```{r echo=TRUE}
 cramer.v(sexo_por_estado)
 ```
 
-### Variables ordinales  
+## Variables ordinales  
 Para ver la intensidad de la asociación entre el nivel de educación y los ingresos salariales se usa el coeficiente de correlación de Spearman, que se pide:
 ```{r echo=TRUE}
 cor(
@@ -903,7 +908,20 @@ cor.test(
     method = "spearman")
 ```
 
-### Variables cuantitativas  
+Para realizar una prueba unilateral derecha, veamos la ayuda:  
+```{r echo=TRUE, eval=FALSE}
+?cor.test
+```
+
+Allí se indica que, además de las dos variables a correlacionar, el argumento $alternative$ admite tres valores, entonces, se indica así en el comando:
+```{r echo=TRUE}
+cor.test(
+  asalariados.con.ingreso.cordoba$educacion_numerica,
+    asalariados.con.ingreso.cordoba$PP08D1,
+    method = "spearman", alternative = "greater")
+```
+
+## Variables cuantitativas  
 El coeficiente de Pearson es el que calcula por defecto el comando "cor", por lo que no hace falta indicar el método. Para la correlación entre la edad y el ingreso salarial:
 ```{r echo=TRUE}
 cor(asalariados.con.ingreso.cordoba$edad,
@@ -917,7 +935,38 @@ cor.test(asalariados.con.ingreso.cordoba$edad,
 ```
 
 Y provee también un intervalo de confianza para el coeficiente.  
+Si elegimos ponerle nombre al objeto que resulta del cálculo, podemos acceder separadamente a cada uno de los resultados:  
 
+```{r echo=TRUE}
+prueba.correlacion<-cor.test(asalariados.con.ingreso.cordoba$edad,
+    asalariados.con.ingreso.cordoba$PP08D1)
+```
+
+Su resumen es:
+```{r echo=TRUE}
+summary(prueba.correlacion)
+```
+
+Si solo queremos el intervalo de confianza, lo pedimos así:
+```{r echo=TRUE}
+prueba.correlacion$conf.int
+```
+
+La ayuda en este comando es:
+```{r echo=-TRUE , eval=FALSE}
+?cor.test
+```
+
+Muestra que, entre los argumentos, está el nivel de confianza para  construir el intervalo, que viene por defecto,  fijado en 0.95. Si se cambia a 0.99 y se llama ahora prueba.correlacion.2 al nuevo objeto, se obtiene:
+
+```{r echo=TRUE}
+
+prueba.correlacion.2<-cor.test(asalariados.con.ingreso.cordoba$edad,
+    asalariados.con.ingreso.cordoba$PP08D1, conf.level = 0.99)
+prueba.correlacion.2$conf.int
+```
+
+### Modelo lineal  
 Para construir un modelo lineal que ajuste los ingresos como función de las horas trabajadas, hay que verificar la calidad de la variable "horas semanales trabajadas" (PP3E_TOT)
 
 ```{r echo=TRUE}
@@ -931,9 +980,15 @@ asalariados.con.ingreso.y.horas.cordoba<-subset(
   asalariados.con.ingreso.cordoba$PP3E_TOT>0)
 ```
 
-Se perdieron 30 casos que no declaran horas trabajadas en la semana de referencia. El modelo es:
+Se perdieron 30 casos que no declaran horas trabajadas en la semana de referencia. Para construir el modelo, recurrimos a la ayuda:
+```{r echo=TRUE, eval=FALSE}
+?lm
+```
+Lo indispensable es indicar las variables en la fórmula y el origen de los datos. La fórmula es $variable \ de \ respuesta$ ~ $regresora_1+regresora_2+...$  
 
-```{r}
+Para nuestro interés, con  una sola regresora, el modelo es:
+
+```{r echo=TRUE}
 modelo.1<-lm(PP08D1~PP3E_TOT,
              data = asalariados.con.ingreso.y.horas.cordoba)
 ```
@@ -973,7 +1028,6 @@ summary(modelo.3)
 
 Para incluir una interacción, por ejemplo entre edad y sexo:
 
-
 ```{r echo=TRUE}
 modelo.4<-lm(PP08D1~PP3E_TOT+edad+sexo+edad*sexo,
              data = asalariados.con.ingreso.y.horas.cordoba)
@@ -982,9 +1036,9 @@ summary(modelo.4)
 ```
 
 
-## Comparación de grupos  
-Para comparar los ingresos salariales de mujeres y varones, se requiere que los grupos sean independinetes, para lo cual haremos la comparación entre jefes y jefas de hogar.
-La prueba t para comparar medias de grupos independientes se llama "t.test":
+# Comparación de grupos  
+Para comparar los ingresos salariales de mujeres y varones, se requiere que los grupos sean independientes, para lo cual haremos la comparación entre jefes y jefas de hogar.  
+La prueba t para comparar medias de grupos independientes se llama "t.test" y su argumento tiene la misma estructura que la del modelo lineal. En este caso los datos de origen están constituídos por un subconjunto de la base que solo contiene jefes y jefas:  
 
 ```{r echo=TRUE}
 t.test(PP08D1~sexo, data = subset(
@@ -1000,7 +1054,7 @@ t.test(PP08D1~sexo, data = subset(
   asalariados.con.ingreso.cordoba$CH03==1), alternative="greater")
 ```
 
-# El paquete ggplot  
+# El paquete `ggplot`  
 
 ## La lógica
 
@@ -1012,7 +1066,7 @@ La construcción de los gráficos en ggplot se hace por medio de capas que se va
 - La transformación estadística (*stat*) que opera sobre los datos originales para sintetizarlos de modo que se los pueda representar.  
 - Los  ajustes de posición
 
-Los gráficos generados con este paquete pueden exportarse con formato gráfico o como pdf. Este paquete está  muy bien documentado, cada cosa que quiera hacerse puede buscarse y hay ayudas que suelen resolver los problemas. Si no se encuentra alguien que haya tenido la misma pregunta, puede formularse en un foro, muy ercomendable es https://es.stackoverflow.com/, que está en español o más amplia, la versión en inglés: https://stackoverflow.com/    
+Los gráficos generados con este paquete pueden exportarse con formato gráfico o como pdf. Este paquete está  muy bien documentado, cada cosa que quiera hacerse puede buscarse y hay ayudas que suelen resolver casi todos los problemas. Si no se encuentra alguien que haya tenido la misma pregunta, puede formularse en un foro, muy recomendable es https://es.stackoverflow.com/, que está en español o más amplia, la versión en inglés: https://stackoverflow.com/    
 
 Cargamos `ggplot2` en la sesión actual:
 
@@ -1030,7 +1084,7 @@ Se define la base del gráfico, que indica de dónde provienen los datos:
 ggplot(asalariados.con.ingreso.y.horas.cordoba)
 ```
 
-Que solo muestra la capa base:
+Que solo muestra la capa base.
 
 Se agrega una capa con un histograma:
 ```{r echo=TRUE}
@@ -1039,30 +1093,31 @@ ggplot(
   geom_histogram(aes(PP08D1))
 ```
 
-El mismo resultado se logra ubicando la estética en la primera instrucción:
+El mensaje indica que se usaron 30 intervalos y que eso puede ajustarse mejor si se lo desea.  
+El mismo resultado se logra ubicando la estética en la primera instrucción y agregamos, en la capa del histograma, que queremos 25 intervalos:
 ```{r echo=TRUE}
 ggplot(
   asalariados.con.ingreso.y.horas.cordoba, aes(PP08D1))+
-  geom_histogram()
+  geom_histogram(bins=25)
 ```
 
 O poniendo todo en la capa del histograma
 ```{r echo=TRUE}
 ggplot()+
   geom_histogram(
-    data=asalariados.con.ingreso.y.horas.cordoba, aes(PP08D1))
+    data=asalariados.con.ingreso.y.horas.cordoba, aes(PP08D1), bins=25)
 ```
 
 Solo que así debemos indicar que  `asalariados.con.ingreso.y.horas.cordoba` son los datos.  
 La información que vaya en la intrucción ggplot() será válida para todas las capas que se agreguen, la que se incluya en una capa solo se toma para esa capa.  
 Para representar frecuencias relativas en el eje de ordenadas, hay que indicar que y mida $densidad$, esto se pone entre dos puntos porque es un resultado que ggplot calcula internamente, las frecuencias relativas son calculadas al hacer las transformaciones que pide el gráfico.  
 O poniendo todo en la capa del histograma
-```{r echo=TRUE}
+```{r echo=TRUE, warning=FALSE}
 
 ggplot()+
   geom_histogram(
     data=asalariados.con.ingreso.y.horas.cordoba,
-    aes(PP08D1, y=..density..))
+    aes(PP08D1, y=..density..), bins=25)
 ```
 
 El polígono de frecuencias se superpone como capa:
@@ -1076,14 +1131,14 @@ Al igual que la curva de densidad:
 ```{r echo=TRUE}
 ggplot(
   asalariados.con.ingreso.y.horas.cordoba, aes(PP08D1))+
-  geom_histogram(aes(y=..density..))+
+  geom_histogram(aes(y=..density..), bins=25)+
   geom_density()
 ```
 
 Se lo puede pintar de verde, con contornos azules:
 ```{r echo=TRUE}
 ggplot(asalariados.con.ingreso.y.horas.cordoba, aes(PP08D1))+
-  geom_histogram(fill="green", col="blue")+
+  geom_histogram(fill="green", col="blue", bins = 25)+
   geom_freqpoly()
 ```
 
@@ -1095,7 +1150,7 @@ ggplot(asalariados.con.ingreso.y.horas.cordoba, aes(PP08D1))+
 En el ejemplo anterior, los colores están **fijados** a los valores constantes "verde" o "azul". Pero se lo puede **mapear** a los valores de una variable, por ejemplo `sexo`:
 ```{r echo=TRUE}
 ggplot(asalariados.con.ingreso.y.horas.cordoba)+
-  geom_histogram(aes(PP08D1, fill=sexo), col="blue")
+  geom_histogram(aes(PP08D1, fill=sexo), col="blue", bins = 25)
 ```
 
 Los contornos están **fijados**, pero el relleno está **mapeado**.
@@ -1116,15 +1171,17 @@ Y se las puede ver con:
 display.brewer.all()
 ```
 
+Si elegimos la paleta $Dark2$  
 ```{r echo=TRUE}
 ggplot(asalariados.con.ingreso.y.horas.cordoba)+
   geom_histogram(aes(PP08D1, fill=sexo), col="blue")+
   scale_fill_brewer(palette="Dark2")
 ```
 
+O bien se puede elegir manualmente qué color asignar a cada categoría:  
 ```{r echo=TRUE}
 ggplot(asalariados.con.ingreso.y.horas.cordoba)+
-  geom_histogram(aes(PP08D1, fill=sexo), col="blue")+
+  geom_histogram(aes(PP08D1, fill=sexo), col="blue", bins = 25)+
   scale_fill_manual(values=c("varon"="white", "mujer"="blue"))
 ```
 
@@ -1145,7 +1202,7 @@ ggplot(
   geom_point(aes(PP3E_TOT, PP08D1, col=sexo))
 ```
 
-La combinación de colores se elige con la paleta, o bien fijarse de manera manual:
+La combinación de colores se elige con la paleta, o bien se establece de manera manual:
 
 ```{r echo=TRUE}
 ggplot(
@@ -1175,11 +1232,14 @@ ggplot(
 Solo a efectos de ver el funcionamiento de los diferentes mapeos, llevamos el tamaño de los puntos a otra variable cuantitativa (la edad) así se dibujan puntos cuyo tamaño es proporcional a los valores de esa variable. A fin de reducir la cantidad de puntos de la nube, retenemos solo personas con estudios universitarios completos y que sean jefes o jefas de hogar.  
 ```{r echo=TRUE}
 ggplot(
-  subset(asalariados.con.ingreso.y.horas.cordoba, asalariados.con.ingreso.y.horas.cordoba$educacion=="universitaria completa" & asalariados.con.ingreso.y.horas.cordoba$CH03==1))+
+  subset(
+    asalariados.con.ingreso.y.horas.cordoba,
+    asalariados.con.ingreso.y.horas.cordoba$educacion=="universitaria completa" &
+      asalariados.con.ingreso.y.horas.cordoba$CH03==1))+
   geom_point(aes(PP3E_TOT, PP08D1, col=sexo, size=edad))
 ```
 
-Otra opción para comparar grupos es la capa `facet_grid` que puede agregarse a cualquier tipo de gráfico. El comando tiene dos argumentos que corresponden a dos variables de clase `factor`, que se separaran con `~` (alt+126 en windows) que van a "facetear" el gráfico pedido en tantas filas y columnas como categorías tengan esas dos variables. Puede usarse solo una variable, reemplazando con un punto la posición de la otra. Por ejemplo para hacer un diagrama de dispersión de los ingresos salariales según las horas trabajadas para varones y otro para mujeres uno al lado del otro: 
+Otra opción para comparar grupos es la capa `facet_grid` que puede agregarse a cualquier tipo de gráfico. El comando tiene dos argumentos que corresponden a dos variables de clase `factor`, que se separan con `~` (alt+126 en windows) que van a "facetear" el gráfico pedido en tantas filas y columnas como categorías tengan esas dos variables. Puede usarse solo una variable, reemplazando con un punto la posición de la otra. Por ejemplo para hacer un diagrama de dispersión de los ingresos salariales según las horas trabajadas para varones y otro para mujeres uno al lado del otro: 
 
 ```{r echo=TRUE}
 ggplot(
@@ -1213,7 +1273,7 @@ ggplot(
   facet_grid(cantidad.ocupaciones~sexo)
 ```
 
- Para no repetir las instrucciones que generan las primera capas del gráfico (aunque se lo haga copiando y pegando), vamos a guardarlo como un objeto y pedir que lo muestre, encerrando entre paréntesis la expresión:
+ Para no repetir las instrucciones que generan las primeras capas del gráfico (aunque se lo haga copiando y pegando), vamos a guardarlo como un objeto y pedir que lo muestre, encerrando entre paréntesis la expresión:
 ```{r echo=TRUE}
 (p1<-ggplot(
   asalariados.con.ingreso.y.horas.cordoba)+
@@ -1251,21 +1311,19 @@ p1+ xlab("Horas trabajadas")+
 ```
 
 
-La tipografía y combinación de colores puede elegirse de manera muy precisa con la capa `theme`, sin embargo, el paquete `ggthemes` tiene preformateados algunos como los que usan algunos medios (Wall Street Journal, The economist) o algunos programas muy conocidos (excel, stata). Para simplificar, llamemos p2 al gráfico que tenemos construido hasta ahora:
+La tipografía y combinación de colores puede elegirse de manera muy precisa con la capa `theme`, sin embargo, el paquete `ggthemes` tiene preformateados algunos como los que usan algunos medios (Wall Street Journal, The economist) o algunos programas muy conocidos (excel, stata). Para simplificar, llamemos p2 al gráfico que tenemos construido hasta ahora, al que vamos a pedir que corte el título en dos renglones, eso se indica con una barra inclinada (alt+92 en windows) y una letra $n$ en el punto donde se quiere bajar de renglón:
+
 ```{r echo=TRUE}
 p2<-p1+ xlab("Horas trabajadas")+
   ylab("Ingresos salariales")+
-  labs(title="Ingresos salariales según cantidad de \n horas semanales trabajadas", # \n indica que baje al otro renglón
+  labs(
+    title="Ingresos salariales según cantidad de \n horas semanales trabajadas",
+    # \n indica que baje al otro renglón
        subtitle="clasificación por sexos y cantidad de ocupaciones",
        caption="Fuente: EPH tercer trimestre 2018")
 ```
 
-
-```{r}
-p2
-```
-
-Y probemos alguna capas de temas, para lo que tenemos que cargarlo en la sesión
+Y probemos alguna capas del paquete `ggthemes`, para lo que tenemos que cargarlo en la sesión
 
 ```{r echo=TRUE}
 library(ggthemes)
@@ -1301,7 +1359,7 @@ ggplot(
   geom_point(aes(PP3E_TOT, PP08D1))
 ```
 
-Para poder sumar a este gráfico una capa con la función que ajusta los puntos, necesitamos indicar cuáles son las variables; esto puede hacerse repitiendo la estética (`aes()`) del `geom_point` o también incorporándola una sola vez en `ggplot()`, hacemos esto último:
+Para poder sumar a este gráfico una capa con la función que ajusta los puntos, necesitamos indicarle a ese coomando cuáles son las variables; esto puede hacerse repitiendo la estética (`aes()`) del `geom_point` o también incorporándola una sola vez en `ggplot()`, hacemos esto último:
 
 ```{r echo=TRUE}
 ggplot(
@@ -1309,7 +1367,7 @@ ggplot(
   geom_point()+geom_smooth()
 ```
 
-Por defecto, el método que usa `geom_smooth` para buscar la función, se llama $loess$, un método no paremétrico que hace regresiones por mínimos cuadrados en subconjuntos de puntos. Además, también por defecto, genera un intervalo de amplitud igual al error estándar (local) alrededor de la curva. Ambas opciones pueden personalizarse:  
+Por defecto, el método que usa `geom_smooth` para buscar la función, se llama $loess$, un método no paramétrico que hace regresiones por mínimos cuadrados en subconjuntos de puntos. Además, también por defecto, genera un intervalo de amplitud igual al error estándar (local) alrededor de la curva. Ambas opciones pueden personalizarse:  
 
 - Para quitar el intervalo, simplemente pedimos, en el argumento de `geom_smooth` que no use el error estándar:
 ```{r echo=TRUE}
@@ -1326,7 +1384,7 @@ ggplot(
 ```
 
 Un método útil cuando hay valores atípicos es el estimador no paramétrico de Theil-Sen, que calcula la mediana de todas las pendientes entre cada par de puntos. Cuando no hay casos atípicos el resultado es muy similar al de míminos cuadrados. El inconveniente es que ese método no está (aun) entre las opciones de `geom_smooth`, por lo que hay que crear una función y luego pedir que la use.  
-El cálculo del estimador de Theil-Sen está en el paquete `mblm`, pero no puede usarse directamente porque no usa ponderadores (que sí los pide la función que está como argumento del método en `geom_smooth`). Entonces en la  función que se crea, se indica un valor nulo para los ponderadores y así (aunque sea nulo) `geom_smooth`lo acepta:
+El cálculo del estimador de Theil-Sen está en el paquete `mblm`, pero no puede usarse directamente porque no usa ponderadores (que sí los pide la función que está como argumento del método en `geom_smooth`). Entonces en la  función que se crea, se indica un valor nulo para los ponderadores y así (aunque sea nulo) `geom_smooth` lo acepta:
 
 Cargamos el paquete
 ```{r echo=TRUE}
@@ -1434,7 +1492,7 @@ ggplot(
   geom_violin()+stat_summary(fun.y=median, geom="point")
 ```
 
-En ambos casos hemos agregado una capa de resumen estadístico, a la que indicamos qué función queremos para la variable $y$ (media o mediana) y pedido que los elementos geométricos que las expresen sean puntos.  
+En ambos casos hemos el procedimiento ha sido agregar una capa de resumen estadístico, a la que indicamos qué función queremos para la variable $y$ (media o mediana) y se pide que los elementos geométricos que las expresen sean puntos.  
 
 Estos gráficos sugieren una tendencia creciente que se podría graficar, hay más de un modo de hacerlo:  
 
@@ -1447,7 +1505,7 @@ ggplot(
   stat_summary(fun.y=mean, geom="point")+
   stat_summary(fun.y=mean, geom="line", aes(group=1))
 ```
-Se agregó otra capa de resumen estadístico, que también calcula las medias grupales, pero ahora las une con una línea. La razón por la que debe ponerse `aes(group=1)` es un tanto críptica, a pesar de la explicacion de @Wickham, pero si no se indica así, el gráfico no sale.  
+Se agregó otra capa de resumen estadístico, que también calcula las medias grupales, pero ahora las une con una línea. La razón por la que debe ponerse `aes(group=1)` es un tanto críptica, a pesar de la explicacion de @Wickham2009, pero si no se indica así, el gráfico no sale.  
 
 - Se pueden unir las medianas de los grupos:
 ```{r echo=TRUE}
@@ -1499,7 +1557,7 @@ ggplot(
 ```
 
 
-Para evitar los rótulos del eje $x$ que han quedado ilegibles, una opción es colorear cada box plot según el nivel de educación (mapear la educacaión al color de los box-plots) y eliminar del eje los rótulos y las marcas, con la capa `theme`. Como la secuencia de instrucciones es larga, le ponemos un nombre y, para que en el mismo acto en que lo define como objeto, ejecute los comandos, encerramos todo entre paréntesis:
+Para evitar los rótulos del eje $x$ que han quedado ilegibles, una opción es colorear cada box plot según el nivel de educación (mapear la educación al color de los box-plots) y eliminar del eje los rótulos y las marcas, con la capa `theme`. Como la secuencia de instrucciones es larga, le ponemos un nombre y, para que en el mismo acto en que lo define como objeto, ejecute los comandos, encerramos todo entre paréntesis:
 ```{r echo=TRUE}
 (p4<-ggplot(
   asalariados.con.ingreso.y.horas.cordoba, aes(
@@ -1591,12 +1649,12 @@ ggplot(asalariados.con.ingreso.y.horas.cordoba)+
   geom_bar(aes(relacion_parentesco, fill=sexo), position = "dodge")
 ```
 
-  La posibilidad de ubicar el origen de los datos en `ggplot`  o en el  `geom_` permite que las capas provengan de un misma baso de bases diferentes.  
+  La posibilidad de ubicar el origen de los datos en `ggplot`  o en el  `geom_` permite que las capas provengan de un misma base de bases diferentes.  
   
 ## Datos provenientes de tablas
 
-Si no se grafica desde la base de microdatos son desde una tabla resumen, debe especificarse en `ggplot`  o en la capa correspondiente.
-Por ejemplo, el gráfico de barras de la variable "relación de parentesco, se pide directamente desde la base original:
+Si no se grafica desde la base de microdatos sino desde una tabla resumen, debe especificarse en `ggplot`  o en la capa correspondiente.
+Por ejemplo, el gráfico de barras de la variable "relación de parentesco", se pide directamente desde la base original:
 
 ```{r echo=TRUE}
 ggplot(
@@ -1621,7 +1679,7 @@ names(tabla_rela_pa)<-c(
 )
 ```
 
-Para pedir el gráfico de esta tabla, la estética tiene que informar no solo la variable que se grafica sino las frecuencias, y debe modificarse la transformación estadística a `"identity"`, que indica que use el valor $y$ de la estética (e que está en segundo término) como frecuencias:
+Para pedir el gráfico de esta tabla, la estética tiene que informar no solo la variable que se grafica sino las frecuencias, y debe modificarse la transformación estadística a `"identity"`, que indica que use el valor $y$ de la estética (el que está en segundo término) como frecuencias:
 
 ```{r echo=TRUE}
 ggplot(
@@ -1629,52 +1687,63 @@ ggplot(
   geom_bar(aes(rel_pa,casos), stat = "identity")
 ```
 
+Si tratáramos a la tabla como al data.frame original y dado que la transformación estadística por defecto de `geom_bar` en el recuento de casos, va a encontrar **una** repetición de cada categoría y el grafico queda:  
+```{r echo=TRUE}
+ggplot(
+  tabla_rela_pa)+
+  geom_bar(aes(rel_pa))
+```
+
+
 
 # El paquete `demography`  
 
-Para esta sección, se recomienda crear un nuevo proyecto, específico para las operaciones que se realizarán con este paquete. De ese modo se pueden tener los datos fácilmente accesibles.
+Los conjuntos de datos para las aplicaciones de esta sección han sido incluidos en la carpeta que está instalada en el mismo lugar que el proyecto actual, por lo ue deberían estar accesibles.  
 
-Descripción del paquete: "El paquete R `demography` provee funciones para el análisis demográfico, que incluyen: elaboración de tablas de mortalidad, modelización de Lee-Carter, análisis funcional de datos sobre tasas de mortalidad, fecundidad y migración neta, y proyecoines estocásticas de población"
+El paquete R `demography` provee funciones para el análisis demográfico, que incluyen: elaboración de tablas de mortalidad, modelización de Lee-Carter, análisis funcional de datos sobre tasas de mortalidad, fecundidad y migración neta, y proyecciones estocásticas de población.
 
 **Elaboración de tablas de mortalidad**: una tabla de mortalidad describe la demografía de una población en términos de supervivencia, escencialmente, el número de individuos que se espera que alcancen a la próxima edad o la próxima etapa de su vida.
 
-**Modelización de Lee-Carter**: Un enfoque para proyectar mortalidad, que no es frecuente en los paquetes estadísticos.
+**Modelización de Lee-Carter**: es un enfoque para proyectar mortalidad, que no es frecuente en los paquetes estadísticos.
 
-**Análisis funcional de datos**: Permite el análisis de diferentes indicadores de una población: tasas de mortalidad y fecundidad, migración neta y proyecciones estocásticas de población.
+**Análisis funcional de datos**: permite el análisis de diferentes indicadores de una población: tasas de mortalidad y fecundidad, migración neta y proyecciones estocásticas de población.
 
-## Primer ejemplo
+## Aplicación
 
-La instalación del paquete se realiza por el medio habitual
-```{r eval=FALSE}
-install.packages("demography")
-```
-
-Y se carga en la sesión
+Se carga en la sesión el paquete que ya ha sido instalado
 ```{r}
 library(demography)
 ```
 
 
-Para importar las bases de datos a R se usa el comando `read.demogdata()` del paquete demography. La estructura del comando es:
+Para importar las bases de datos a R se usa el comando `read.demogdata()` del paquete demography. La estructura del comando se ve en la ayuda:
 
 ```{r eval=FALSE}
-read.demogdata(archivo de tasas, archivo de población, type, label, max.mx = 10, skip = 2, popskip = (por defecto coincide con skip), lambda, scale=1)
+?demography
+```
+
+Y resulta:
+```{r eval=FALSE}
+read.demogdata(archivo de tasas, archivo de población,
+               type, label, max.mx = 10, skip = 2,
+               popskip = (por defecto coincide con skip),
+               lambda, scale=1)
 ```
 
 
-El *archivo de tasas* es el archivo que contiene las tasas que interesan: mortalidad o fecundidad
-El *archivo de población* contiene la composición de la población por sexo y edad
-*Type* es el componente de la dinámica demográfica que se analiza, puede valer: “mortality”, “fertility” o “migration”.
-*Label* es el nombre del área que se analiza
-*Max.mx* establece un límite superior para las tasas bajo análisis; su función es la de tratar a todo valor que sea mayor que ese número, como igual a él.
-*Skip* indica cuántas líneas deben saltearse antes de empezar a leer el archivo, para el caso de archivos que tengan títulos antes de los nombres de las columnas.
-*Popskip* es lo mismo para el archivo de población.
-*Lamda* es un valor que se usa como parámetro en la transformación de Box-Cox Es un modo de convertir datos no normales en normales. Los valores por defecto son 0 para mortalidad, 0.4 para fecundidad y 1 para migración
-*Scale* indica la escala de los datos,  si las tasas son por indviduo "scale=1" si son por mil "scale=1000".
+El *archivo de tasas* es el archivo que contiene las tasas que interesan: mortalidad o fecundidad  
+El *archivo de población* contiene la composición de la población por sexo y edad  
+*Type* es el componente de la dinámica demográfica que se analiza, puede valer: “mortality”, “fertility” o “migration”  
+*Label* es el nombre del área que se analiza  
+*Max.mx* establece un límite superior para las tasas bajo análisis; su función es la de tratar a todo valor que sea mayor que ese número, como igual a él  
+*Skip* indica cuántas líneas deben saltearse antes de empezar a leer el archivo, para el caso de archivos que tengan títulos antes de los nombres de las columnas  
+*Popskip* es lo mismo para el archivo de población  
+*Lambda* es un valor que se usa como parámetro en la transformación de Box-Cox Es un modo de convertir datos no normales en normales. Los valores por defecto son 0 para mortalidad, 0.4 para fecundidad y 1 para migración  
+*Scale* indica la escala de los datos,  si las tasas son por indviduo "scale=1" si son por mil "scale=1000" 
 
-Vamos a usar datos del proyecto The Human Mortality Database (Shkolnikov, 2020). Una vez hecho el registro (sin costo) se pueden descargar los datos para 41 países o áreas y diversos períodos. Para este ejemplo se usarán los datos de USA. Las bases que nos van a interesar por el momento son las de tasas de mortalidad y exposición al riesgo, ambas en la sección "datos periódicos". Para aprovechas las funciones de este paquete, es necesario adecuar otras tablas a este formato.
+Vamos a usar datos del proyecto The Human Mortality Database [@Shkolnikov2020]. Una vez hecho el registro (sin costo) se pueden descargar los datos para 41 países o áreas y diversos períodos. Para este ejemplo se usarán los datos de USA. Las bases que nos van a interesar por el momento son las de tasas de mortalidad y exposición al riesgo, ambas en la sección "datos periódicos". Para aprovechar las funciones de este paquete, es necesario adecuar otras tablas a este formato.
 
-Una vez que se han descargado las dos bases (tasas y población sometida al riesgo) en la carpeta dondese encuentra el proyecto, conviene observar los archivos .txt, para tener en mente la estructura general de los datos.  
+Una vez que se han descargado las dos bases (tasas y población sometida al riesgo) en la carpeta donde se encuentra el proyecto, conviene observar los archivos .txt, para tener en mente la estructura general de los datos.  
 Luego las bases son leídas convirtiéndolas en un objeto de clase "demogdata", que será usado por varias funciones del paquete.  
 Hemos usado los nombres con que vienen por defecto las bases de HMD: Mx_1x1.txt para las tasas de mortalidad y Exposures_1x1.txt para la población expuesta.
 
@@ -1691,19 +1760,19 @@ plot(x, series, datatype, years, ages, max.age,
 
 ```
 
-cuyos argumentos son:
-*x*: el objeto de clase demogdata con que se está trabajando.
-*series*: el nombre de la serie que se va a graficar. Si no se especifica, por defecto toma la primera matriz, según datatype.
-*datatype*: por defecto es tasas ("rate"), la opción es especificar población datatype="pop".
-*years*: un vector que especifica los años a graficar, por defecto, toma todos los que están en la serie
-*ages*: igual que los años, si no se indica, se toman todas las edades disponibles
-*max.age*: la máxima edad a graficar, por defecto, las disponibles
-*transform*: lógico, por defecto TRUE, que indica que los datos se transforman antes de graficar
-*plot.type*: tipo de gráfico pueden ser funciones o tiempo
-*main*: título del gráfico
-*xlab* e *ylab*: rótulos de los ejes
+cuyos argumentos son:  
+*x*: el objeto de clase demogdata con que se está trabajando  
+*series*: el nombre de la serie que se va a graficar. Si no se especifica, por defecto toma la primera matriz, según datatype  
+*datatype*: por defecto es tasas ("rate"), la opción es especificar población datatype="pop"  
+*years*: un vector que especifica los años a graficar, por defecto, toma todos los que están en la serie  
+*ages*: igual que los años, si no se indica, se toman todas las edades disponibles  
+*max.age*: la máxima edad a graficar, por defecto, las disponibles  
+*transform*: lógico, por defecto TRUE, que indica que los datos se transforman antes de graficar  
+*plot.type*: tipo de gráfico pueden ser funciones o tiempo  
+*main*: título del gráfico  
+*xlab* e *ylab*: rótulos de los ejes  
 
-La mayoría de estos argumentos tienen sus valores por defecto y, para un gráfico básico, alcanza con indicar el origen de los datos y la serie elegida. Así, para el logaritmo de tasas de mortalidad (en el eje vertical) por edades (eje horizontal) y año (representado en el color),  se pide simplemente:
+La mayoría de estos argumentos tienen sus valores definidos por defecto y, para un gráfico básico, alcanza con indicar el origen de los datos y la serie elegida. Así, para el logaritmo de tasas de mortalidad (en el eje vertical) por edades (eje horizontal) y año (representado en el color),  se pide simplemente:
 
 ```{r}
 plot(USA_mortalidad, series= "Total")
@@ -1714,23 +1783,28 @@ Si no se quiere la transformación logarítmica, se indica:
 plot(USA_mortalidad, series= "Total", transform = FALSE)
 ```
 
-Dado que la transformación logarítmica permite apreciar mejor las diferencias y, si se solicita solo de mujeres:
+Dado que la transformación logarítmica permite apreciar mejor las diferencias, la conservamos, y solicitamos solo de mujeres:
 ```{r}
 plot(USA_mortalidad, series= "Female")
 ```
 
 Se pueden ajustar las opciones de formato por defecto
 ```{r}
-plot(USA_mortalidad, series= "Female", main = "Tasas de mortalidad femeninas en Estados Unidos (1933-2017)", xlab="edad", ylab="Logaritmo de las tasas de mortalidad") 
+plot(USA_mortalidad, series= "Female",
+     main = "Tasas de mortalidad femeninas en Estados Unidos (1933-2017)",
+     xlab="edad",
+     ylab="Logaritmo de las tasas de mortalidad") 
 ```
 
 El todos los gráficos se ve la tendencia general según la cual las tasas tienen un comportamiento similar a lo largo de la vida de las personas y decrecen a lo largo de la historia. El apartamiento del patrón por edades se observa en las edades mayores, donde la caída de la mortalidad aparece más acentuada.
 
-Si se cambia el tipo de gráfico por "tiempo", se visualiza cómo se midifican las tasas esecíficas de mortalidad por edad a lo largo del tiempo. Ahor acada color representa una edad y el eje horizontal es la línea de tiempo. ajustamos los nombres de los ejes:
+Si se cambia el tipo de gráfico por "tiempo", se visualiza cómo se modifican las tasas esecíficas de mortalidad por edad a lo largo del tiempo. Ahora cada color representa una edad y el eje horizontal es la línea de tiempo. Ajustamos los nombres de los ejes:
 
 ```{r}
 plot(USA_mortalidad, series= "Total", plot.type = "time",
-     main="USA: Evolución de las tasas específicas \n  de mortalidad por edad (1933-2017)", xlab = "año", ylab = "logaritmo de las tasas de mortalidad")
+     main="USA: Evolución de las tasas específicas \n  de mortalidad por edad (1933-2017)",
+     xlab = "año",
+     ylab = "logaritmo de las tasas de mortalidad")
 ```
 
 Al que le haría falta un pequeño ajuste de formato, porque el paquete mantiene el nombre del eje. Se puede modificar con xlab.
@@ -1740,10 +1814,10 @@ Luego de haberse registrado en HMD, hay un comando R que permite acceder a los d
 hmd.mx(country,username,password, label=country)
 ```
 
-En el que:
-*country* es el nombre abreviado del país que se soilicita
-*username* y *password*, son los que corresponden a la cuenta creada
-*label* es la etiqueta, que debe coincidir con el nombre del  país que se pidió.
+En el que:  
+*country* es el nombre abreviado del país que se soilicita  
+*username* y *password*, son los que corresponden a la cuenta creada  
+*label* es la etiqueta, que debe coincidir con el nombre del  país que se pidió  
 (todo va entre comillas)
 
 ## Tablas de mortalidad
@@ -1755,19 +1829,20 @@ lifetable(x, series = names(data$rate)[1], years = data$year,
   type = c("period", "cohort"))
 ```
 
-data refers to a demogdata file
-series refers to the name of the series to use, defaults to one. In this instance 1 would be female, 2 would be male, 3 would be total
-years=vector of which years to include
-ages=vector of which ages to include
-max.age=age for last row, subsequent rows are combined
-type=period or cohort data
-A period lifetable examines all age groups at the current time
-A cohort lifetable examines a cohort over a long period of time
+**data** es el archivo `demogdata` que se va a usar  
+**series** es el nombre de la serie que se va a usar, por defecto es 1. En este caso 1 es mujeres , 2, varones y 3 el total  
+**years** es el vercto ed los años a incluir  
+**ages** es el vector de la edades a incluir  
+**max.age** la edad para la última fila, las filas siguientes se combinan  
+**type** si son datos de príodo o de cohorte  
+<!--A period lifetable examines all age groups at the current time
+A cohort lifetable examines a cohort over a long period of time-->
 
 
 Para construir la tabla de mortalidad para USA en 2016 y guardarla con el nombre "tabla_de_mortalidad", se solicita
 ```{r}
-tabla_de_mortalidad=lifetable(USA_mortalidad, series="Total", years=2016)
+tabla_de_mortalidad<-
+  lifetable(USA_mortalidad, series="Total", years=2016)
 ```
 
 El  objeto resultante es una lista que contiene las columnas usuales de una tabla de mortalidad:
@@ -1777,24 +1852,17 @@ El  objeto resultante es una lista que contiene las columnas usuales de una tabl
 names(tabla_de_mortalidad)
 ```
 
-mx= Age or class specific death rates
-qx= Probability of death between this age and the age + 1
-lx= Proportion of the starting population surviving to the next stage
-dx= Proportion of the starting populations dying during this stage
-Lx= The number of person years lived relative to the starting population of that year
-Tx= Average person-years left to live after this year
-ex= Expectation of life at age x, very similar to Tx for this dataset If label la etiqueta del país que se analiza
-
 Y se los puede ver impresos individualmente, por ejemplo, la esperanza de vida para cada edad:
 ```{r}
 tabla_de_mortalidad$ex
 ```
 
 
-Si hubiésemos pedido más años, por ejemplo el inicio y fin de la serie disponible:
+Si hubiésemos pedido dos años, por ejemplo el inicio y fin de la serie disponible:
 
 ```{r}
-tabla_de_mortalidad_compara=lifetable(USA_mortalidad, series="Total", years=c(1933,2016))
+tabla_de_mortalidad_compara<-
+  lifetable(USA_mortalidad, series="Total", years=c(1933,2016))
 
 ```
 
@@ -1806,12 +1874,14 @@ tabla_de_mortalidad_compara$ex
 Solo para mujeres:
 
 ```{r}
-tabla_de_mortalidad_compara_mujeres=lifetable(USA_mortalidad, series="Female", years=c(1933,2016))
+tabla_de_mortalidad_compara_mujeres<-
+  lifetable(USA_mortalidad, series="Female", years=c(1933,2016))
+
 tabla_de_mortalidad_compara_mujeres$ex
 ```
 
 
-La visualización de estos resultados se logra con el comando plot, que, por defecto grafica la esperanza de vida por edad:
+La visualización de estos resultados se logra con el comando `plot`, que, por defecto grafica la esperanza de vida por edad:
 
 ```{r}
 plot(tabla_de_mortalidad)
@@ -1826,13 +1896,18 @@ plot(tabla_de_mortalidad_compara)
 
 El comando `life.expectancy` provee esperanzas de vida para determinadas edades y años; por defecto toma edad cero años y todos los años disponibles. Por ejemplo:
 ```{r}
-ev_nac<-life.expectancy(USA_mortalidad, series = "Total")
+ev_nac<-
+  life.expectancy(USA_mortalidad, series = "Total")
+
 ev_nac
 ```
 
-Devuelve la esperanza de vida al nacimiento para cada año que hay en la base. Si se quiere algo más preciso, como la esperanza de vida a los 25 años de mujeres en 1945:
+Devuelve la esperanza de vida al nacimiento para cada año que hay en la base. Si se quiere algo más específico, como la esperanza de vida a los 25 años de mujeres en 1945:
 ```{r}
-espe_vida_mujeres_25_1945<-life.expectancy(USA_mortalidad, series = "Female", age = 25, years = 1945)
+espe_vida_mujeres_25_1945<-
+  life.expectancy(USA_mortalidad, series = "Female",
+                  age = 25, years = 1945)
+
 espe_vida_mujeres_25_1945
 ```
 
@@ -1840,80 +1915,145 @@ espe_vida_mujeres_25_1945
 La función `sexratio` muestra las diferencias en la mortalidad a diferentes edades:  
 
 ```{r}
-IM<-sex.ratio(USA_mortalidad)
+IM<-
+  sex.ratio(USA_mortalidad)
+
 plot(IM)
 ```
 
 Que muestra el índice de masculinidad de las tasas de mortalidad para diferentes edades, donde cada línea representa una cohorte.
 
-Example Two: Lee Carter Model
-Lee Carter Models allow us to extend our models to the future and predict mortality or life expectancy. While I won’t go too in depth here, it is of note in this package as not many statistical programs have a built in means to perform this task. In order to forecast ahead, our data must first be converted into a Lee-Carter model.
+## Modelización de Lee Carter  
+Permite predecir la mortalidad o la esperanza de vida, lo interesante es que este paquete tiene al modelo como función incorporada. Para predecir, primero hay que convertir los datos al modelo.
 
-Lets examine the projected total death rates and then project this into the future The lca command requires a demogdata object as its primary input. With many of the other components mirroring what we have seen above. The forecast.lca command utilizes the lca output, and allows you to forecast ahead by the number of years indicated in h. The se and jumpchoice arguments refer to methods of computation which can be examined in more depth on the demography package page. The confidence level for prediction intervals is given by the level argument.
+Vamos a examinar las tasas de mortalidad totales y luego proyectarlas. El comando `lca` requiere de un objeto `demogdata` como input, la mayoría de los otros componentes son similares a los anteriores. El comando  `forecast.lca`usa el resultado de `lca` y ofrece una proyección por el número de años indicados en $h$. Los argumentos `se` y `jumpchoice` se refieren a métodos de computación que pueden verse con más detalle en la página del paquete (https://www.rdocumentation.org/packages/demography/versions/1.22). El nivel de confianza para los intervalos de predicción se indica en el argumento `level`.  
 
-lca2=lca(dat,series=names(dat$rate)[3],years=dat$year,ages=dat$age,max.age=100)
-forecast.lca(lca2, h=50, se=c("innovdrift"), jumpchoice=c("fit"), level=90)
+```{r}
+lca2<-lca(USA_mortalidad,
+          series=names(USA_mortalidad$rate)[3],
+          years=USA_mortalidad$year,
+         ages=USA_mortalidad$age,max.age=100)
+
+
+proyeccion.1<-forecast(
+  lca2, h=50, se=c("innovdrift"),
+  jumpchoice=c("fit"), level=90)
+```
+
+
 If we plot our forecasted data we see a similar plotting mechanism as to our initial data plot.
+```{r}
+plot(proyeccion.1,
+     main="Usa: Tatas brutas de mortalidad (2018-2067)",
+     xlab="edad",
+     ylab="logaritmo de las tasas de mortalidad")
+```
 
-
-
-Figure Five: Projected combined male and female death rates for the years 2017 to 2066
-
+```{r}
 summary(lca2)
-## Lee-Carter analysis
-## 
-## Call: lca(data = dat, series = names(dat$rate)[3], years = dat$year,  
-##  
-## Call:     ages = dat$age, max.age = 100) 
-## 
-## Adjustment method: dt
-## Region: USA
-## Years in fit: 1933 - 2016
-## Ages in fit: 0 - 100 
-## 
-## Percentage variation explained: 96.2%
-## 
-## ERROR MEASURES BASED ON MORTALITY RATES
-## 
-## Averages across ages:
-##       ME      MSE      MPE     MAPE 
-## -0.00001  0.00005  0.00755  0.06977 
-## 
-## Averages across years:
-##      IE     ISE     IPE    IAPE 
-## 0.00005 0.00386 0.75703 6.93471 
-## 
-## 
-## ERROR MEASURES BASED ON LOG MORTALITY RATES
-## 
-## Averages across ages:
-##       ME      MSE      MPE     MAPE 
-##  0.00281  0.00949 -0.00013  0.01660 
-## 
-## Averages across years:
-##       IE      ISE      IPE     IAPE 
-##  0.28073  0.94279 -0.01769  1.60972
-Other commands
-mean.demogdata
-Allows for the computation of the mean or median for the demographic rates at each age level in the supplied demogdata files. Arguments allow for a transformation to be applied ot the data prior to calculation.
-extract.years
-Allows for a vector of values for a specific year or series of years to be extracted from a demogdata object, creating a new specific demogdata object
-extract.ages
-Similar to the above but for ages, if the last argument is true, all the ages beyond the quereyed age are combined into the highest age group given.
+```
 
 
+## Otros comandos  
+**mean.demogdata** calcula la media o mediana de tasas en cada nivel de edad. Los argumentos permiten que se transformen o no los datos antes del cálculo  
+Para las tasas promedio de mortalidad por edad
+```{r}
+medias_mortalidad<-mean(USA_mortalidad)
+```
 
-## Biblio  
+Su gráfico es
+
+```{r}
+plot(medias_mortalidad)
+```
+
+Si se quiere evitar la transformación logarítmica
+```{r}
+medias_mortalidad_1<-mean(USA_mortalidad, transform = FALSE)
+plot(medias_mortalidad_1)
+
+```
+
+Lo mismo para las medianas
+```{r}
+medianas_mortalidad<-median(USA_mortalidad)
+plot(medianas_mortalidad)
+```
+
+
+Para verlas como matriz de datos, se lo transforma y se ponen nombres a las columnas:
+```{r}
+medias_mortalidad_df<-as.data.frame(medias_mortalidad)
+
+names(medias_mortalidad_df)<-
+  c("edad", "tasa media de mortalidad")
+```
+
+**extract.years** extrae de un objeto `demogdata`, un vector de valores para un año específico o para una serie de años y crea un nuevo objeto `demogdata. Crea un subconjunto con algunos años.  
+Las tasas para 1945:
+```{r}
+mortalidad_1945<-
+  extract.years(USA_mortalidad, 1945)
+
+plot(mortalidad_1945, series = "Total")
+```
+
+**extract.ages** coo el anterior para las edades,  crea un subconjunto con algunas edades. Si el último argumento es `TRUE`, todas la edades más allá de la buscada, se combinan en el último grupo de edades  
+Por ejemplo, para las tasas de personas entre 13 y 19 años:
+```{r}
+mortalidad_jovenes<-
+  extract.ages(USA_mortalidad, 13:19,
+               combine.upper = FALSE)
+
+plot(mortalidad_jovenes, series = "Total",
+     main = "USA: Tasas brutas de mortalidad \n (1933 - 2017)",
+     ylab = "logaritmo de las tasas de mortalidad",
+     xlab = "edad")
+```
+Si no se indica que `combine.upper=FALSE`, por defecto, colapsa en 19 años todas las edades superiores a ella.
+
+La combinación de los dos comandos permite seleccionar años y edades simultáneamente:  
+```{r}
+mortalidad_jovenes_1945<-
+  extract.ages(mortalidad_1945, 13:19,
+               combine.upper = FALSE)
+
+plot(mortalidad_jovenes_1945,
+     series = "Total")
+```
+
+
+Solo las mujeres
+```{r}
+plot(mortalidad_jovenes_1945,
+     series = "Female",
+     main = "USA: Tasas de mortalidad de mujeres entre 13 y 19 años \n (1945)",
+     ylab = "logaritmo de las tasas de mortalidad", xlab = "edad")
+```
+
+
+# Recursos  
+
+#### Ayuda general  
+https://support.rstudio.com/hc/en-us/articles/200552336-Getting-Help-with-R  
+https://r4ds.had.co.nz/  
+https://es.r4ds.hadley.nz/  
+
 #### Base de datos de mortalidad:
-Human Mortality Database. University of California, Berkeley (USA), and Max Planck Institute for Demographic Research (Germany). Available at www.mortality.org or www.humanmortality.de (data downloaded on [date]).
+Human Mortality Database. University of California, Berkeley (USA), and Max Planck Institute for Demographic Research (Germany). Available at www.mortality.org or www.humanmortality.de  
 
 #### Paquete `demography`: https://www.rdocumentation.org/packages/demography/versions/1.22/topics/demogdata  
 https://rpubs.com/Timexpo/487053  
 
 #### Paquete `ggplot2`
-https://www.r-graph-gallery.com/ggplot2-package.html
-https://www.statmethods.net/advgraphs/ggplot2.html?ref=driverlayer.com/web
+https://www.r-graph-gallery.com/ggplot2-package.html  
+https://www.statmethods.net/advgraphs/ggplot2.html?ref=driverlayer.com/web  
+https://ggplot2.tidyverse.org/  
 
 #### Paquete `viridis`
 https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html
 https://ggplot2.tidyverse.org/reference/scale_viridis.html
+
+---
+
+# Referencias  
