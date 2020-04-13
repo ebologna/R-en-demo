@@ -15,6 +15,8 @@ output:
     toc: true
     toc_depth: 2
 bibliography: library.bib
+header-includes:
+  \renewcommand{\contentsname}{Índice}
 ---
 
 
@@ -1036,7 +1038,7 @@ summary(modelo.4)
 ```
 
 
-# Comparación de grupos  
+## Comparación de grupos  
 Para comparar los ingresos salariales de mujeres y varones, se requiere que los grupos sean independientes, para lo cual haremos la comparación entre jefes y jefas de hogar.  
 La prueba t para comparar medias de grupos independientes se llama "t.test" y su argumento tiene la misma estructura que la del modelo lineal. En este caso los datos de origen están constituídos por un subconjunto de la base que solo contiene jefes y jefas:  
 
@@ -1696,9 +1698,114 @@ ggplot(
 
 
 
+# Pirámides de población
+
+## A partir de microdatos
+
+### Absolutos
+
+Se define edad y se corrige el $-1$ a $0$  
+```{r}
+eph.3.18$edad<-eph.3.18$CH06
+eph.3.18$edad[eph.3.18$edad==-1]<-0
+
+```
+
+Se construyen dos gráficos de barras, con la variable edad tomada de cada uno de dos subconjuntos de datos: el que contiene solo mujeres y el que tiene solo varones. Por eso los datos de origen se sitúan en el `geom_bar` y no en `ggplot`. En el de varones, se multiplica por $-1$ la cuenta de casos. Luego se rotan los ejes y se indican los rótulos del eje horizontal.  
+```{r}
+ggplot()+ geom_bar(data=subset(eph.3.18, eph.3.18$sexo=="mujer"),
+                   aes(edad,fill=sexo))+
+  geom_bar(data=subset(eph.3.18, eph.3.18$sexo=="varon"),
+                   aes(edad, fill=sexo, y=..count..*(-1)))+
+  coord_flip()+
+  scale_y_continuous(breaks=seq(-500,500,100),labels=abs(seq(-500,500,100)))+
+  ylab("Volumen")+xlab("Edades simples")
+```
+
+### En relativos
+
+Lo mismo, solo que debe pedirse que, en lugar de mostrar la *cuenta* de casos, se tome la *proporción*, a la que también se multiplica por $-1$ para los varones. En el anterior no era necesario indicar `y=..count..` para las mujeres, porque es la operación por defecto de `geom_bar`, ahora que pedimos `y=..prop..`, hay que indicarlo en los dos `geom_bar`. La expresión `group=1` es necesaria según lo explica @Wickham2009. El comando `paste0` le *pega* el signo *%* al resultado de la operación (la secuencia en este caso). Si se una `paste` en lugar de `paste0`, queda un espacio entre el número y el signo *%*.
+```{r}
+ggplot()+ geom_bar(data=subset(eph.3.18, eph.3.18$sexo=="mujer"),
+                   aes(edad,fill=sexo, y=..prop.., group=1))+
+  geom_bar(data=subset(eph.3.18, eph.3.18$sexo=="varon"),
+           aes(edad, fill=sexo, y=(..prop..)*(-1), group=1))+
+  coord_flip()+
+  scale_y_continuous(breaks=seq(-.02,.02,.01),
+                     labels=paste0(100*abs(seq(-.02,.02,.01)),"%"))
+```
+
+## A partir de la distribución  
+
+### En absolutos
+
+Se construye la tabla y se la trata como `data.frame`, se la etiqueta y se calcula el total de casos, para usarlo luego. A la columna *casos*, donde sexo sea varón se cambia de signo. La diferencia con lo anterior en el argumento de `geom_bar` es que hay que pedir `stat="identity"`, para que en lugar de contar ocurrencias de la categoría, tome a la columna *casos* como frecuencias.  
+```{r}
+sexo_edad<-table(eph.3.18$edad, eph.3.18$sexo)
+sexo_edad<-data.frame(sexo_edad)
+names(sexo_edad)<-c("edad", "sexo", "casos")
+n<-sum(sexo_edad$casos)
+
+sexo_edad$casos[sexo_edad$sexo=="varon"]<--sexo_edad$casos
+
+ggplot(sexo_edad)+ geom_bar(aes(edad, casos,
+fill=sexo), stat = "identity")+ coord_flip()+
+  scale_y_continuous(breaks=seq(-500,500,100),labels=abs(seq(-500,500,100)))
+
+```
+
+### En relativos
+
+La misma operación que antes, pero con una columna que se construye como los *casos* dividido el total de observaciones.  
+```{r}
+sexo_edad$relativas<-sexo_edad$casos/n
+
+ggplot(sexo_edad)+ geom_bar(aes(edad, relativas,
+fill=sexo), stat = "identity")+ coord_flip()+
+  scale_y_continuous(breaks=seq(-.01,.01,.005),
+                     labels=paste0(100*abs(seq(-.01,.01,.005)),"%"))
+
+```
+
+## Categorías de edad  
+
+En la función `cut` se indican los puntos de corte y sus etiquetas, definidos primero como dos vectores. Para la categoría abierta final, elegimos un punto extremo de corte en 150 años. Por defecto los intervalos incluyen al límite superior, para evitarlo, se pide `right = FALSE`. Al final, pedimos una tabla para verificar el resultado.    
+```{r}
+
+cortes_edad <- c(0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,150)
+clases_edad <- c("0-4","5-9","10-14","15-19","20-24","25-29","30-34",
+               "35-39","40-44","45-49","50-54","55-59","60-64","65-69",
+               "70-74","75-79","80-84","85+")
+
+eph.3.18$edad_qq<-cut(eph.3.18$edad,breaks = cortes_edad, 
+                                right = FALSE, 
+                                labels = clases_edad)
+
+table(eph.3.18$edad_qq, eph.3.18$sexo)
+```
+
+## Pirámide con edades agrupadas
+
+Para hacerla desde la base de microdatos, se procede igual que antes, con la nueva variable `edad_qq`. Luego se agregan detalles de estilo.  
+```{r}
+ggplot()+ geom_bar(data=subset(eph.3.18, eph.3.18$sexo=="mujer"),
+                   aes(edad_qq,fill=sexo))+
+  geom_bar(data=subset(eph.3.18, eph.3.18$sexo=="varon"),
+                   aes(edad_qq, fill=sexo, y=..count..*(-1)))+
+  coord_flip()+
+  scale_y_continuous(breaks=seq(-2000,2000,500),labels=abs(seq(-2000,2000,500)))+
+  xlab("Edades quinquenales")+ylab("Volumen")+
+  scale_fill_manual(values = c("varon"="green", "mujer"="orange"))+
+  theme_tufte()+labs(title="Distribución por sexo y edad de la muestra de la
+                     Encuesta Permanente de Hogares",
+                     subtitle="Aglomerados Urbanos de Argentina - Tercer 
+                     Trimestre 2018", caption="Fuente: INDEC 2020")
+```
+
+
 # El paquete `demography`  
 
-Los conjuntos de datos para las aplicaciones de esta sección han sido incluidos en la carpeta que está instalada en el mismo lugar que el proyecto actual, por lo ue deberían estar accesibles.  
+Los conjuntos de datos para las aplicaciones de esta sección han sido incluidos en la carpeta que está instalada en el mismo lugar que el proyecto actual, por lo que deberían estar accesibles.  
 
 El paquete R `demography` provee funciones para el análisis demográfico, que incluyen: elaboración de tablas de mortalidad, modelización de Lee-Carter, análisis funcional de datos sobre tasas de mortalidad, fecundidad y migración neta, y proyecciones estocásticas de población.
 
@@ -1743,7 +1850,7 @@ El *archivo de población* contiene la composición de la población por sexo y 
 
 Vamos a usar datos del proyecto The Human Mortality Database [@Shkolnikov2020]. Una vez hecho el registro (sin costo) se pueden descargar los datos para 41 países o áreas y diversos períodos. Para este ejemplo se usarán los datos de USA. Las bases que nos van a interesar por el momento son las de tasas de mortalidad y exposición al riesgo, ambas en la sección "datos periódicos". Para aprovechar las funciones de este paquete, es necesario adecuar otras tablas a este formato.
 
-Una vez que se han descargado las dos bases (tasas y población sometida al riesgo) en la carpeta donde se encuentra el proyecto, conviene observar los archivos .txt, para tener en mente la estructura general de los datos.  
+Una vez que se han descargado las dos bases (tasas y población sometida al riesgo) en la carpeta donde se encuentra el proyecto, conviene observar los archivos .txt (desde una hoja de cálculo), para tener en mente la estructura general de los datos.  
 Luego las bases son leídas convirtiéndolas en un objeto de clase "demogdata", que será usado por varias funciones del paquete.  
 Hemos usado los nombres con que vienen por defecto las bases de HMD: Mx_1x1.txt para las tasas de mortalidad y Exposures_1x1.txt para la población expuesta.
 
@@ -1798,7 +1905,7 @@ plot(USA_mortalidad, series= "Female",
 
 El todos los gráficos se ve la tendencia general según la cual las tasas tienen un comportamiento similar a lo largo de la vida de las personas y decrecen a lo largo de la historia. El apartamiento del patrón por edades se observa en las edades mayores, donde la caída de la mortalidad aparece más acentuada.
 
-Si se cambia el tipo de gráfico por "tiempo", se visualiza cómo se modifican las tasas esecíficas de mortalidad por edad a lo largo del tiempo. Ahora cada color representa una edad y el eje horizontal es la línea de tiempo. Ajustamos los nombres de los ejes:
+Si se cambia el tipo de gráfico por "tiempo", se visualiza cómo se modifican las tasas específicas de mortalidad por edad a lo largo del tiempo. Ahora cada color representa una edad y el eje horizontal es la línea de tiempo. Ajustamos los nombres de los ejes:
 
 ```{r}
 plot(USA_mortalidad, series= "Total", plot.type = "time",
@@ -1831,7 +1938,7 @@ lifetable(x, series = names(data$rate)[1], years = data$year,
 
 **data** es el archivo `demogdata` que se va a usar  
 **series** es el nombre de la serie que se va a usar, por defecto es 1. En este caso 1 es mujeres , 2, varones y 3 el total  
-**years** es el vercto ed los años a incluir  
+**years** es el vector de los años a incluir  
 **ages** es el vector de la edades a incluir  
 **max.age** la edad para la última fila, las filas siguientes se combinan  
 **type** si son datos de príodo o de cohorte  
@@ -1926,7 +2033,7 @@ Que muestra el índice de masculinidad de las tasas de mortalidad para diferente
 ## Modelización de Lee Carter  
 Permite predecir la mortalidad o la esperanza de vida, lo interesante es que este paquete tiene al modelo como función incorporada. Para predecir, primero hay que convertir los datos al modelo.
 
-Vamos a examinar las tasas de mortalidad totales y luego proyectarlas. El comando `lca` requiere de un objeto `demogdata` como input, la mayoría de los otros componentes son similares a los anteriores. El comando  `forecast.lca`usa el resultado de `lca` y ofrece una proyección por el número de años indicados en $h$. Los argumentos `se` y `jumpchoice` se refieren a métodos de computación que pueden verse con más detalle en la página del paquete (https://www.rdocumentation.org/packages/demography/versions/1.22). El nivel de confianza para los intervalos de predicción se indica en el argumento `level`.  
+Vamos a examinar las tasas de mortalidad totales y luego proyectarlas. El comando `lca` requiere de un objeto `demogdata` como input, la mayoría de los otros componentes son similares a los anteriores. El comando  `forecast.lca` usa el resultado de `lca` y ofrece una proyección por el número de años indicados en $h$. Los argumentos `se` y `jumpchoice` se refieren a métodos de computación que pueden verse con más detalle en la página del paquete (https://www.rdocumentation.org/packages/demography/versions/1.22). El nivel de confianza para los intervalos de predicción se indica en el argumento `level`.  
 
 ```{r}
 lca2<-lca(USA_mortalidad,
@@ -1941,7 +2048,7 @@ proyeccion.1<-forecast(
 ```
 
 
-If we plot our forecasted data we see a similar plotting mechanism as to our initial data plot.
+Los gráficos de los datos proyectados son similares a los que se hicieron al principio. 
 ```{r}
 plot(proyeccion.1,
      main="Usa: Tatas brutas de mortalidad (2018-2067)",
@@ -1954,15 +2061,15 @@ summary(lca2)
 ```
 
 
-## Otros comandos  
-**mean.demogdata** calcula la media o mediana de tasas en cada nivel de edad. Los argumentos permiten que se transformen o no los datos antes del cálculo  
+## Otros comandos del paquete  
+**mean.demogdata** calcula la media o mediana de tasas en cada nivel de edad. Los argumentos permiten que se transformen o no los datos antes del cálculo.  
+
 Para las tasas promedio de mortalidad por edad
 ```{r}
 medias_mortalidad<-mean(USA_mortalidad)
 ```
 
 Su gráfico es
-
 ```{r}
 plot(medias_mortalidad)
 ```

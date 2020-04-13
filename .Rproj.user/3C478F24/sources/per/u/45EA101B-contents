@@ -1,3 +1,6 @@
+
+
+
 library(demography)
 Population<-read.table("Population.txt", sep="", header = TRUE)
 dat<-read.demogdata(
@@ -80,3 +83,10 @@ ggplot(
   asalariados.con.ingreso.y.horas.cordoba, aes(PP08D1))+
   geom_histogram(aes(y=..density..), bins=25)+
   geom_density(bins=25)
+
+media<-function(x){
+  mean(x, na.rm = TRUE)
+}
+x<-c(NA,NA,2,3,6,7)
+mean(x)
+media(x)

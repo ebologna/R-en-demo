@@ -1,0 +1,105 @@
+x<-8
+3*x
+y=62
+rm(y)
+class(x)
+y<-"a"
+class(y)
+z<-c(2,5,4,8,7)
+class(z)
+u<-c(1,2,3,"a")
+u
+z
+2*z
+2*u
+x<-5:10
+x<-seq(5,10,.5) # defino x como una secuencia
+x
+seq(2,8, .4)
+?seq
+# comentario
+seq(2,10,length.out =4)
+sum(x)
+length(x)
+sum(x)/length(x)
+mean(x)
+median(x)
+rep("j", 5)
+
+f<-c(2,5,9, 4:10, rep(6, 3))
+f
+grupo<-c("experimental", "control")
+class(grupo)
+grupo
+pertenencia<-c(rep("experimental", 10), rep("control", 10))
+pertenencia
+
+sexo<-c(rep(1, 5), rep(2,7))
+edad<-c(23,25,29,21,35,29,27,30,31,20,24,29)
+length(edad)
+length(sexo)
+
+sexo<-as.factor(sexo)
+levels(sexo)<-c("varones", "mujeres")
+sexo
+sexo_edad<-data.frame(sexo, edad)
+sexo_edad
+View(sexo_edad)
+
+class(sexo_edad)
+attributes(sexo_edad)
+
+names(sexo_edad)
+
+eph<-read.table("usu_individual_T318.txt", sep = ";", header = TRUE)
+class(eph$CH04)
+eph$sexo<-as.factor(eph$CH04)
+levels(eph$sexo)<-c("varon", "mujer")
+table(eph$sexo)
+
+library(questionr)
+?questionr
+
+wtd.table(eph$sexo, weights = eph$PONDERA)
+
+tabla_sexo_absolutos<-wtd.table(
+  eph$sexo,
+  weights = eph$PONDERA)
+
+tabla_sexo_absolutos
+
+(u<-prop.table(tabla_sexo_absolutos))
+(v<-addmargins(u))
+100*v
+
+addmargins(prop.table(tabla_sexo_absolutos))
+
+100*addmargins(prop.table(tabla_sexo_absolutos))
+
+round(100*addmargins(prop.table(tabla_sexo_absolutos)),2)
+
+ESTADO Condición de actividad
+0 = Entrevista individual no realizada (no respuesta al Cuestionario Individual)
+1 = Ocupado
+2 = Desocupado
+3 = Inactivo
+4 = Menor de 10 años
+
+tabla_1<-table(sexo_edad$sexo)
+prop.table(tabla_1)
+addmargins(prop.table(tabla_1))
+100*addmargins(prop.table(tabla_1))
+
+round(100*addmargins(prop.table(tabla_1)),2)
+
+class(eph$ESTADO)
+names(eph)
+
+eph$condicion_actividad<-as.factor(eph$ESTADO)
+
+levels(eph$condicion_actividad)<-c(
+  NA,"Ocupado", "Desocupado", "Inactivo", NA)
+
+table(eph$condicion_actividad, useNA = "always")
+?table
+table(eph$ESTADO)

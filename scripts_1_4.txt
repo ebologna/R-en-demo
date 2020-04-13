@@ -1,0 +1,459 @@
+x<-8
+3*x
+y=62
+rm(y)
+class(x)
+y<-"a"
+class(y)
+z<-c(2,5,4,8,7)
+class(z)
+u<-c(1,2,3,"a")
+u
+z
+2*z
+2*u
+x<-5:10
+x<-seq(5,10,.5) # defino x como una secuencia
+x
+seq(2,8, .4)
+?seq
+# comentario
+seq(2,10,length.out =4)
+sum(x)
+length(x)
+sum(x)/length(x)
+mean(x)
+median(x)
+rep("j", 5)
+
+f<-c(2,5,9, 4:10, rep(6, 3))
+f
+grupo<-c("experimental", "control")
+class(grupo)
+grupo
+pertenencia<-c(rep("experimental", 10), rep("control", 10))
+pertenencia
+
+sexo<-c(rep(1, 5), rep(2,7))
+edad<-c(23,25,29,21,35,29,27,30,31,20,24,29)
+length(edad)
+length(sexo)
+
+sexo<-as.factor(sexo)
+levels(sexo)<-c("varones", "mujeres")
+sexo
+sexo_edad<-data.frame(sexo, edad)
+sexo_edad
+View(sexo_edad)
+
+class(sexo_edad)
+attributes(sexo_edad)
+
+names(sexo_edad)
+library(ggplot2)
+eph<-read.table("usu_individual_T318.txt", sep = ";", header = TRUE)
+class(eph$CH04)
+eph$sexo<-as.factor(eph$CH04)
+levels(eph$sexo)<-c("varon", "mujer")
+table(eph$sexo)
+
+library(questionr)
+?questionr
+
+wtd.table(eph$sexo, weights = eph$PONDERA)
+
+tabla_sexo_absolutos<-wtd.table(
+  eph$sexo,
+  weights = eph$PONDERA)
+
+tabla_sexo_absolutos
+
+(u<-prop.table(tabla_sexo_absolutos))
+(v<-addmargins(u))
+100*v
+
+addmargins(prop.table(tabla_sexo_absolutos))
+
+100*addmargins(prop.table(tabla_sexo_absolutos))
+
+round(100*addmargins(prop.table(tabla_sexo_absolutos)),2)
+
+
+tabla_1<-table(sexo_edad$sexo)
+prop.table(tabla_1)
+addmargins(prop.table(tabla_1))
+100*addmargins(prop.table(tabla_1))
+
+round(100*addmargins(prop.table(tabla_1)),2)
+
+class(eph$ESTADO)
+names(eph)
+
+eph$condicion_actividad<-as.factor(eph$ESTADO)
+
+levels(eph$condicion_actividad)<-c(
+  NA,"Ocupado", "Desocupado", "Inactivo", NA)
+
+table(eph$condicion_actividad, useNA = "always")
+?table
+table(eph$ESTADO)
+
+table(eph$sexo, eph$ESTADO)
+tabla_2<-table(eph$sexo, eph$condicion_actividad)
+
+estado_por_sexo<-wtd.table(
+  eph$sexo, eph$condicion_actividad, weights = eph$PONDERA)
+
+prop.table(estado_por_sexo)
+
+prop.table(estado_por_sexo,1)
+
+prop.table(estado_por_sexo,2)
+
+chisq.test(tabla_2) #solicito la prueba
+prueba_chi<-chisq.test(tabla_2) # la guardo
+attributes(prueba_chi)
+
+prueba_chi$expected
+
+prueba_chi$statistic/length(eph$sexo)
+tabla_2
+tabla_2[7]
+
+addmargins(tabla_2)
+addmargins(tabla_2)[12]
+install.packages("agricolae")
+library(agricolae)
+cramer.v(tabla_2)
+?cramer.v
+table(eph$sexo, eph$condicion_actividad, eph$CH03 )
+
+sexo_por_estado_matriz_de_datos<-as.data.frame(tabla_2)
+View(sexo_por_estado_matriz_de_datos)
+names(sexo_por_estado_matriz_de_datos)<-c("sexo",
+                                          "condicion de actividad", "casos")
+
+table(eph$CH06)
+
+eph$CH06[eph$CH06==-1]<-0
+
+eph$edad<-eph$CH06
+eph$edad[eph$edad>94]<-"95 y más"
+table(eph$edad)
+
+summary(eph$CH06)
+
+summary(eph$edad)
+
+mean(eph$CH06)
+
+wtd.mean(eph$CH06, weights = eph$PONDERA)
+
+sd(eph$CH06)
+
+100*sd(eph$CH06)/mean(eph$CH06)
+
+quantile(eph$CH06, .30)
+
+quantile(eph$CH06, c(.2,.4,.6,.8))
+
+cv<-function(x){
+  100*sd(x)/mean(x)
+}
+
+cv(eph$CH06)
+
+table(eph$NIVEL_ED)
+eph$educacion<-eph$NIVEL_ED
+eph$educacion[eph$educacion==7]<-0
+
+table(eph$educacion)
+
+summary(eph$P47T)
+quantile(eph$P47T, .99, na.rm = TRUE)
+?mean
+mean(eph$P47T, na.rm = TRUE)
+table(eph$P47T)
+
+mean(subset(eph, eph$P47T>0 &
+              eph$P47T<=60000 & is.na(eph$P47T)==FALSE)$P47T)
+
+eph$CH04[eph$P47T==3000000]
+
+subconjunto_eph<-subset(eph, eph$P47T>0 &
+                          eph$P47T<=60000 & is.na(eph$P47T)==FALSE)
+
+mean(subconjunto_eph$P47T)
+
+?cor
+cor(subconjunto_eph$educacion, subconjunto_eph$P47T, method = "spearman")
+cor(subconjunto_eph$CH06, subconjunto_eph$P47T)
+
+cor.test(subconjunto_eph$educacion, subconjunto_eph$P47T,
+         method = "spearman", alternative = "greater")
+?cor.test
+
+
+prueba_correlacion<-cor.test(subconjunto_eph$CH06, subconjunto_eph$P47T)
+attributes(prueba_correlacion)
+
+prueba_correlacion$conf.int
+
+prueba_correlacion_99<-cor.test(subconjunto_eph$CH06, subconjunto_eph$P47T,
+                             conf.level = .99)
+prueba_correlacion_99$conf.int
+
+?lm
+lm(P47T~CH06+educacion, data = subconjunto_eph)
+modelo_1<-lm(P47T~CH06+educacion, data = subconjunto_eph)
+attributes(modelo_1)
+modelo_1$coefficients
+summary(modelo_1)
+
+plot(subconjunto_eph$CH06, subconjunto_eph$P47T)
+lm(P47T~CH06, data = subconjunto_eph)
+
+x<-15:70
+y<-12526+72.94*x
+plot(x,y)
+
+?t.test
+
+t.test(subconjunto_eph$P47T~subconjunto_eph$sexo)
+t.test(P47T~sexo, data = subconjunto_eph)
+t.test(P47T~sexo, data = subconjunto_eph, conf.level=.99)
+
+summary(lm(P47T~sexo, data = subconjunto_eph))
+
+library(ggplot2)
+ggplot(subconjunto_eph)+
+  geom_histogram(aes(P47T))
+
+ggplot(subconjunto_eph)+geom_histogram(aes(P47T), fill="green", bins = 50)
+
+ggplot(subconjunto_eph)+
+  geom_histogram(aes(P47T, fill=sexo), col="red", bins = 50)+
+  scale_fill_manual(values=c("varon"="green", "mujer"="blue"))
+
+ggplot(subconjunto_eph, aes(P47T))+
+  geom_histogram(fill="green", bins = 25)+
+  geom_freqpoly(bins=25, col="red")
+
+ggplot(subconjunto_eph, aes(P47T))+
+  geom_histogram(aes(y=..density..), fill="green", bins = 25)+
+  geom_density()+
+  geom_freqpoly(aes(y=..density..))
+
+ggplot(subconjunto_eph, aes(sexo, y=..density..))+
+  geom_bar()
+
+
+ggplot(subconjunto_eph)+
+  geom_histogram(aes(P47T, fill=sexo), bins = 50)+
+  scale_fill_manual(values=c("varon"="green", "mujer"="blue"))+
+  xlab("Ingresos individuales totales por sexos")+ylab("casos")
+
+library("RColorBrewer")
+display.brewer.all()
+
+summary(subconjunto_eph$PP3E_TOT)
+quantile(subconjunto_eph$PP3E_TOT, .99, na.rm = TRUE)
+
+
+subconjunto_eph<-subset(subconjunto_eph, subconjunto_eph$PP3E_TOT>0 &
+                          subconjunto_eph$PP3E_TOT<=84 &
+                          is.na(subconjunto_eph$PP3E_TOT)==FALSE)
+
+ggplot(subconjunto_eph)+
+  geom_point(aes(PP3E_TOT,P47T), alpha=.1)
+
+ggplot(subconjunto_eph)+
+  geom_point(aes(PP3E_TOT,P47T), alpha=.1)
+
+ggplot(subset(subconjunto_eph, subconjunto_eph$AGLOMERADO==13))+
+  geom_point(aes(PP3E_TOT, P47T, col=sexo), alpha=.7)+
+  scale_color_manual(values=c("varon"="green", "mujer"="blue"))
+
+
+ggplot(subset(subconjunto_eph, subconjunto_eph$AGLOMERADO==13))+
+  geom_point(aes(PP3E_TOT, P47T), alpha=.7)+
+  facet_grid(sexo~.)
+
+ggplot(subconjunto_eph)+
+  geom_point(aes(PP3E_TOT, P47T), alpha=.7)+
+  facet_grid(AGLOMERADO~sexo)
+
+library(ggthemes)
+
+ggplot(subset(subconjunto_eph, subconjunto_eph$AGLOMERADO==13))+
+  geom_point(aes(PP3E_TOT, P47T), alpha=.7)+
+  facet_grid(sexo~.)+theme_tufte()+xlab("Horas semanales tabajadas")+
+  ylab("Ingresos totales")+labs(title = "Ingresos por hora",
+                                subtitle = "Córdoba 2018", caption = "INDEC, 2020")
+
+ggplot(subset(subconjunto_eph, subconjunto_eph$AGLOMERADO==13),
+       aes(PP3E_TOT, P47T))+
+  geom_point(alpha=.7)+
+  theme_tufte()+xlab("Horas semanales tabajadas")+
+  ylab("Ingresos totales")+labs(title = "Ingresos por hora",
+                                subtitle = "Córdoba 2018", caption = "INDEC, 2020")+
+  geom_smooth(method = "lm", se=FALSE)+facet_grid(sexo~.)
+
+
+ggplot(subconjunto_eph)+geom_boxplot(aes(P47T, sexo))
+
+ggplot(subconjunto_eph)+geom_boxplot(aes(sexo, P47T))
+
+ggplot(subconjunto_eph)+geom_boxplot(aes(as.factor(educacion), P47T))
+
+ggplot(subconjunto_eph)+geom_point(aes(educacion, P47T))
+
+ggplot(subconjunto_eph)+geom_violin(aes(as.factor(educacion), P47T))
+
+ggplot(subconjunto_eph)+geom_violin(aes(as.factor(educacion), P47T,
+                                        fill=sexo))
+
+ggplot(subconjunto_eph,aes(as.factor(educacion), P47T))+
+  geom_boxplot()+
+  stat_summary(fun.y=mean, geom="point", col="red")+
+  facet_grid(sexo~.)
+
+ggplot(subconjunto_eph,aes(as.factor(educacion), P47T))+
+  geom_boxplot()+
+  stat_summary(fun.y=mean, geom="line", col="red", aes(group=1))+
+  facet_grid(sexo~.)
+
+ggplot(subconjunto_eph,aes(as.factor(educacion), P47T, fill=sexo))+
+  geom_boxplot()+
+  stat_summary(fun.y=mean, geom="line", col="red", aes(group=1))+
+  theme_tufte()+xlab("Nivel de educación")+
+  ylab("Ingresos totales")+labs(title = "Ingresos según nivel de educación y sexo",
+                                subtitle = "Aglomerados urbanos Argentina 2018", caption = "INDEC, 2020")
+
+
+ggplot(
+  subconjunto_eph, aes(
+    as.factor(educacion), P47T))+
+  geom_boxplot(
+    aes(
+      fill=educacion))+ #acá se mapea la educación al color
+  stat_summary(fun.y=mean, geom="point")+
+  stat_summary(fun.y=mean, geom="line", aes(group=1))+
+  facet_grid(.~sexo)+ ylab("Ingresos Totales")+
+  theme_tufte()+
+  theme(
+    axis.text.x=element_blank(), # esto elimina los rótulos
+    axis.ticks.x=element_blank()) # y esto las marcas
+
+subconjunto_eph$educacion<-as.factor(subconjunto_eph$educacion)
+subconjunto_eph$educacion_num<-as.numeric(subconjunto_eph$educacion)
+
+ggplot(
+  subconjunto_eph, aes(
+    educacion, P47T))+
+  geom_boxplot(
+    aes(
+      fill=educacion))+ #acá se mapea la educación al color
+  stat_summary(fun.y=mean, geom="point")+
+  stat_summary(fun.y=mean, geom="line", aes(group=1))+
+  facet_grid(.~sexo)+ ylab("Ingresos Totales")+
+  theme_tufte()+
+  theme(
+    axis.text.x=element_blank(), # esto elimina los rótulos
+    axis.ticks.x=element_blank()) # y esto las marcas
+
+
+ggplot(
+  subconjunto_eph, aes(
+    educacion, P47T))+
+  geom_boxplot(
+    aes(
+      fill=-educacion_num))+ #acá se mapea la educación al color
+  stat_summary(fun.y=mean, geom="point")+
+  stat_summary(fun.y=mean, geom="line", aes(group=1))+
+  facet_grid(.~sexo)+ ylab("Ingresos Totales")+
+  theme_tufte()+
+  theme(
+    axis.text.x=element_blank(), # esto elimina los rótulos
+    axis.ticks.x=element_blank()) # y esto las marcas
+
+
+ggplot(subconjunto_eph)+geom_bar(aes(sexo))
+
+table(subconjunto_eph$sexo)
+base.sexo<-as.data.frame(table(subconjunto_eph$sexo))
+View(base.sexo)
+names(base.sexo)<-c("sexo", "casos")
+
+ggplot(base.sexo)+geom_bar(aes(sexo, casos),stat = "identity" )
+?geom_bar
+
+table(subconjunto_eph$PP03C)
+subconjunto_eph$cantidad_ocupaciones<-as.factor(subconjunto_eph$PP03C)
+levels(subconjunto_eph$cantidad_ocupaciones)<-c("una", "más de una")
+
+ggplot(subconjunto_eph)+
+  geom_boxplot(
+    aes(cantidad_ocupaciones, P47T, col=sexo))
+
+ggplot(subconjunto_eph)+
+  geom_boxplot(
+    aes(educacion, P47T, col=sexo))+
+  facet_grid(cantidad_ocupaciones~.)
+
+library(expss)
+base.sexo<-apply_labels(base.sexo,
+             sexo="sexo de la persona",
+             casos="frecuencia absoluta")
+View(base.sexo)
+
+ggplot(base.sexo)+
+  geom_bar(aes(sexo, casos), stat="identity")
+
+
+t.test(subconjunto_eph$P47T, mu=25000)
+
+library(demography)
+
+USA_mortalidad<-read.demogdata(
+  file="Mx_1x1.txt",popfile="Exposures_1x1.txt", type="mortality",
+  label="USA",skip=2, scale=1 )
+
+plot(x, series, datatype, years, ages, max.age,
+     transform, plot.type, type = "l", main, xlab, ylab,)
+
+plot(USA_mortalidad, series = "Total", transform = FALSE)
+
+plot(USA_mortalidad, series= "Total", plot.type = "time",
+     main="USA: Evolución de las tasas específicas \n de mortalidad por edad (1933-2017)",
+     xlab = "año",
+     ylab = "logaritmo de las tasas de mortalidad")
+
+tabla_de_mortalidad<-
+  lifetable(USA_mortalidad, series="Total", years=2017)
+tabla_de_mortalidad
+
+names(tabla_de_mortalidad)
+tabla_de_mortalidad$ex
+
+tabla_de_mortalidad_comparada<-lifetable(
+  USA_mortalidad, series = "Female", years = c(1933, 1950, 2017)
+)
+round(tabla_de_mortalidad_comparada$ex,2)
+
+write.csv(round(tabla_de_mortalidad_comparada$ex,2), "esperanzas.csv")
+
+plot(tabla_de_mortalidad_comparada)
+
+life.expectancy(USA_mortalidad, series = "Male", years = c(1933, 1950,2017))
+
+lca2<-lca(USA_mortalidad,
+          series=names(USA_mortalidad$rate)[3],
+          years=USA_mortalidad$year,
+          ages=USA_mortalidad$age,max.age=100)
+
+names(lca2)
+
+proyeccion.1<-forecast(
+  lca2, h=50, se=c("innovdrift"),
+  jumpchoice=c("fit"), level=90)
